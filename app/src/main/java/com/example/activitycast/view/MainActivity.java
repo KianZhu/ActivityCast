@@ -1,10 +1,15 @@
 package com.example.activitycast.view;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +27,7 @@ import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.room.ActivityReqDatabase;
 import com.example.activitycast.view.adapter.MyAdapter;
 import com.example.activitycast.viewmodel.MyViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private MyViewModel viewModel;
     private MyAdapter myAdapter;
     private ActivityMainBinding mainBinding;
+    private FloatingActionButton fab;
+    private Dialog nameDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +80,33 @@ public class MainActivity extends AppCompatActivity {
 
         myAdapter = new MyAdapter(activityReqArrayList);
         recyclerView.setAdapter(myAdapter);
+
+        fab = mainBinding.floatingActionButton;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog();
+            }
+        });
+    }
+
+    private void showDialog()
+    {
+        nameDialog = new Dialog(this);
+        nameDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view = LayoutInflater.from(this).inflate(R.layout.name_dialog, null);
+        nameDialog.setContentView(view);
+        nameDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        nameDialog.show();
+
+        Button submit = view.findViewById(R.id.submit_btn);
+        EditText edt = view.findViewById(R.id.name_edt);
+        submit.setOnClickListener( v -> {
+            String activityName = edt.getText().toString();
+            Intent i = new Intent(this, ManualActivity.class);
+            i.putExtra("name", activityName);
+            startActivity(i);
+        });
     }
 
 
