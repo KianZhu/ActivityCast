@@ -18,6 +18,9 @@ public interface ActivityReqDao {
     @Delete
     void delete(ActivityReq activityReq);
 
+    @Query("DELETE FROM activityreq_table")
+    void deleteAll();
+
     @Query("SELECT * FROM activityreq_table")
     LiveData<List<ActivityReq>> getAllActivityReq();
 }

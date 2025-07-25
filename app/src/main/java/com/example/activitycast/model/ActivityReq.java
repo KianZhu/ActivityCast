@@ -6,6 +6,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "activityreq_table")
 public class ActivityReq {
+
+    public ActivityReq() {
+    }
+
     public int getId() {
         return id;
     }
@@ -134,6 +138,14 @@ public class ActivityReq {
         this.notes = notes;
     }
 
+    public String getDateStringISO() {
+        return "" + year + "-" + month + "-" + date;
+    }
+
+    public void setDateStringISO(String dateStringISO) {
+        this.dateStringISO = dateStringISO;
+    }
+
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -182,4 +194,6 @@ public class ActivityReq {
 
     @ColumnInfo(name = "notes")
     private String notes;
+
+    private String dateStringISO;
 }

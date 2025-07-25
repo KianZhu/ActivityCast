@@ -47,6 +47,15 @@ public class Repository {
         });
     }
 
+    public void deleteAllActivityReq() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                activityReqDao.deleteAll();
+            }
+        });
+    }
+
     public LiveData<List<ActivityReq>> getAllActivityReq()
     {
         return activityReqDao.getAllActivityReq();

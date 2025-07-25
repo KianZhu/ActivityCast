@@ -1,0 +1,98 @@
+package com.example.activitycast.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.activitycast.R;
+import com.example.activitycast.databinding.ActivityMainBinding;
+import com.example.activitycast.model.ActivityReq;
+import com.example.activitycast.room.ActivityReqDatabase;
+import com.example.activitycast.view.adapter.MyAdapter;
+import com.example.activitycast.viewmodel.MyViewModel;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityReqDatabase activityReqDatabase;
+    private ArrayList<ActivityReq> activityReqArrayList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private MyViewModel viewModel;
+    private MyAdapter myAdapter;
+    private ActivityMainBinding mainBinding;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        recyclerView = mainBinding.recyclerView;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        activityReqDatabase = ActivityReqDatabase.getInstance(this);
+
+        viewModel = new ViewModelProvider(this).get(MyViewModel.class);
+
+        viewModel.deleteAllActivityReq();
+        ActivityReq testReq1 = new ActivityReq();
+        testReq1.setName("Badminton");
+        testReq1.setYear(2025);
+        testReq1.setMonth(8);
+        testReq1.setDate(12);
+        viewModel.addNewActivityReq(testReq1);
+
+        viewModel.getAllActivityReq().observe(this, activityReqs -> {
+            activityReqArrayList.clear();
+            activityReqArrayList.addAll(activityReqs);
+            if (activityReqArrayList.size() == 0) mainBinding.noActivitiesText.setVisibility(View.VISIBLE);
+            else mainBinding.noActivitiesText.setVisibility(View.GONE);
+            myAdapter.notifyDataSetChanged();
+        });
+
+        myAdapter = new MyAdapter(activityReqArrayList);
+        recyclerView.setAdapter(myAdapter);
+    }
+
+
+
+
+
+
+    // Inflate menu_main.xml into the ActionBar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    // Handle menu item click
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_goto_second) {
+            startActivity(new Intent(this, ManualActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}
