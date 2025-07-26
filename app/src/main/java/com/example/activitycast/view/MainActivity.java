@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
         EditText edt = view.findViewById(R.id.name_edt);
         submit.setOnClickListener( v -> {
             String activityName = edt.getText().toString();
-            Intent i = new Intent(this, ManualActivity.class);
-            i.putExtra("name", activityName);
+            Intent i = new Intent(this, SetLocationActivity.class);
+            i.putExtra("activityName", activityName);
             startActivity(i);
         });
     }

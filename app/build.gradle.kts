@@ -51,4 +51,8 @@ dependencies {
     val lifecycle_version = "2.9.2"
     implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 }
