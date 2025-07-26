@@ -1,6 +1,7 @@
 package com.example.activitycast.view;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,13 +63,11 @@ public class SetLocationActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(List<CityResultInd> cityResultInd) {
                     cityList.clear();
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < cityResultInd.size(); i++)
                     {
                         cityList.add(cityResultInd.get(i));
                     }
-//                    cityList.addAll(cityResultInd);
                     locationAdapter = new LocationAdapter(cityList, activityName);
-                    Toast.makeText(SetLocationActivity.this, Integer.toString(locationAdapter.getItemCount()), Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(locationAdapter);
                     locationAdapter.notifyDataSetChanged();
                 }
