@@ -55,4 +55,6 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.google.code.gson:gson:2.13.1")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    implementation("androidx.compose.material:material:1.8.3")
+    implementation("com.google.android.material:material:1.12.0")
 }

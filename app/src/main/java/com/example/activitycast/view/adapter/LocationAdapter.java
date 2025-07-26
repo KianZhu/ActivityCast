@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.activitycast.databinding.CityListItemBinding;
 import com.example.activitycast.model.CityResultInd;
 import com.example.activitycast.view.ManualActivity;
+import com.example.activitycast.view.SetDateActivity;
 import com.example.activitycast.view.SetTimeActivity;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
             binding.nextBtn.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 CityResultInd clickedResult = cityList.get(position);
-                Intent i = new Intent(v.getContext(), SetTimeActivity.class);
+                Intent i = new Intent(v.getContext(), SetDateActivity.class);
                 i.putExtra("activityName", activityName);
                 i.putExtra("latitude", clickedResult.getLatitude());
                 i.putExtra("longitude", clickedResult.getLongitude());

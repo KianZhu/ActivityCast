@@ -15,6 +15,9 @@
         android:theme="@style/Theme.ActivityCast"
         tools:targetApi="31">
         <activity
+            android:name=".view.SetDateActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SetTimeActivity"
             android:exported="false" />
         <activity

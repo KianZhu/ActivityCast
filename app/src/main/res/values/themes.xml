@@ -6,4 +6,5 @@
     </style>
 
     <style name="Theme.ActivityCast" parent="Base.Theme.ActivityCast" />
+
 </resources>

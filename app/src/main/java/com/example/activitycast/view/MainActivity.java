@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_goto_second) {
-            startActivity(new Intent(this, SetTimeActivity.class));
+            startActivity(new Intent(this, SetDateActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
