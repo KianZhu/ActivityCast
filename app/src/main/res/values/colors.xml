@@ -14,4 +14,5 @@
     <color name="coral">#FF7F50</color>
     <color name="skyblue">#87CEEB</color>
     <color name="yellow">#FFFACD</color>
+    <color name="radio_button_unchecked_color">#CCCCCC</color>
 </resources>

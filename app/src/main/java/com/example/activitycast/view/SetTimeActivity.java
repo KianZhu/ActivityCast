@@ -52,6 +52,23 @@ public class SetTimeActivity extends AppCompatActivity {
 
             if (startHour > endHour || (startHour == endHour && startMinute >= endMinute)) {
                 showDialog();
+            } else {
+                String activityName = getIntent().getStringExtra("activityName");
+                int latitude = getIntent().getIntExtra("latitude", 0);
+                int longitude = getIntent().getIntExtra("longitude", 0);
+                int day = getIntent().getIntExtra("day", 0);
+                int month = getIntent().getIntExtra("month", 0);
+                int year = getIntent().getIntExtra("year", 0);
+                Intent i = new Intent(SetTimeActivity.this, SetReqActivity.class);
+                i.putExtra("activityName", activityName);
+                i.putExtra("latitude", latitude);
+                i.putExtra("longitude", longitude);
+                i.putExtra("day", day);
+                i.putExtra("month", month);
+                i.putExtra("year", year);
+                i.putExtra("startHour", startHour);
+                i.putExtra("endHour", endHour);
+                startActivity(i);
             }
         });
     }
