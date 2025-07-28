@@ -138,6 +138,14 @@ public class ActivityReq {
         this.notes = notes;
     }
 
+    public boolean isWindSet() {
+        return windSet;
+    }
+
+    public void setWindSet(boolean windSet) {
+        this.windSet = windSet;
+    }
+
     public String getDateStringISO() {
         return "" + year + "-" + month + "-" + date;
     }
@@ -188,6 +196,9 @@ public class ActivityReq {
 
     @ColumnInfo(name = "windLow")
     private boolean windLow;
+
+    @ColumnInfo(name = "windSet")
+    private boolean windSet;
 
     @ColumnInfo(name = "aqi")
     private int aqi;

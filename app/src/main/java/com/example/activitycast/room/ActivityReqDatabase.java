@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.activitycast.model.ActivityReq;
 
-@Database(entities = {ActivityReq.class}, version = 1)
+@Database(entities = {ActivityReq.class}, version = 2)
 public abstract class ActivityReqDatabase extends RoomDatabase {
     public abstract ActivityReqDao getActivityReqDao();
 

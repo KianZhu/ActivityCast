@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Add Max Temperature (°C)"
+                android:text="Set Max Temperature (°C)"
                 app:flow_wrapMode="none"
                 android:textSize="24sp"
                 android:layout_marginLeft="16dp"

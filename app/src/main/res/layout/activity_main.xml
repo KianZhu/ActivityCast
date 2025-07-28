@@ -46,7 +46,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/outline_add_2_24"
-            android:backgroundTint="@color/blue"/>
+            android:backgroundTint="@color/blue"
+            app:tint="@color/white"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
