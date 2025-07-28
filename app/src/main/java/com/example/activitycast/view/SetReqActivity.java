@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivitySetReqBinding;
+import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.viewmodel.MyViewModel;
 
 public class SetReqActivity extends AppCompatActivity {
@@ -44,6 +46,8 @@ public class SetReqActivity extends AppCompatActivity {
     private Dialog minVisDialog;
     private Dialog windDialog;
     private Dialog maxAqiDialog;
+    private Dialog noReqAddedDialog;
+    private Dialog tempErrorDialog;
 
 
     @Override
@@ -64,7 +68,7 @@ public class SetReqActivity extends AppCompatActivity {
         double longitude = getIntent().getDoubleExtra("longitude", 0);
         int year = getIntent().getIntExtra("year", 0);
         int month = getIntent().getIntExtra("month", 0);
-        int date = getIntent().getIntExtra("date", 0);
+        int day = getIntent().getIntExtra("day", 0);
         int startHour = getIntent().getIntExtra("startHour", 0);
         int endHour = getIntent().getIntExtra("endHour", 0);
 
@@ -93,12 +97,14 @@ public class SetReqActivity extends AppCompatActivity {
 
 
 
-        binding.rmvMinTempBtn.setOnClickListener(v -> {minTemp = -99;
+        binding.rmvMinTempBtn.setOnClickListener(v -> {
+            minTemp = -99;
             requirementsAdded--;
             binding.addMinTempBtn.setVisibility(View.VISIBLE);
             binding.rmvMinTempBtn.setVisibility(View.INVISIBLE);
         });
-        binding.rmvMaxTempBtn.setOnClickListener(v -> {minTemp = 99;
+        binding.rmvMaxTempBtn.setOnClickListener(v -> {
+            maxTemp = 99;
             requirementsAdded--;
             binding.addMaxTempBtn.setVisibility(View.VISIBLE);
             binding.rmvMaxTempBtn.setVisibility(View.INVISIBLE);
@@ -133,8 +139,45 @@ public class SetReqActivity extends AppCompatActivity {
             binding.addAirQualityBTN.setVisibility(View.VISIBLE);
             binding.rmvAirQualityBtn.setVisibility(View.INVISIBLE);
         });
-    }
 
+
+        binding.doneBTN.setOnClickListener(v -> {
+            if (requirementsAdded == 0)
+            {
+                showNoReqAddedDialog();
+            }
+            else if (minTemp > maxTemp)
+            {
+                showTempErrorDialog();
+            }
+            else
+            {
+                ActivityReq newReq = new ActivityReq();
+                newReq.setName(activityName);
+                newReq.setYear(year);
+                newReq.setMonth(month);
+                newReq.setDate(day);
+                newReq.setStartHour(startHour);
+                newReq.setEndHour(endHour);
+                newReq.setLatitude(latitude);
+                newReq.setLongitude(longitude);
+                newReq.setMinTemp(minTemp);
+                newReq.setMaxTemp(maxTemp);
+                newReq.setRain(rain);
+                newReq.setSnow(snow);
+                newReq.setVisibility(visibility);
+                newReq.setWindLow(windLow);
+                newReq.setWindSet(windSet);
+                newReq.setAqi(aqi);
+                newReq.setNotes(binding.notesEDT.getText().toString());
+                viewModel.addNewActivityReq(newReq);
+                Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
+    }
 
     private void showMinTempDialog()
     {
@@ -309,6 +352,35 @@ public class SetReqActivity extends AppCompatActivity {
             binding.addAirQualityBTN.setVisibility(View.INVISIBLE);
             binding.rmvAirQualityBtn.setVisibility(View.VISIBLE);
             maxAqiDialog.dismiss();
+        });
+    }
+
+    private void showNoReqAddedDialog() {
+        noReqAddedDialog = new Dialog(this);
+        noReqAddedDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view = LayoutInflater.from(this).inflate(R.layout.no_req_added_dialog, null);
+        noReqAddedDialog.setContentView(view);
+        noReqAddedDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        noReqAddedDialog.show();
+
+        Button okBTN = view.findViewById(R.id.ok_btn);
+        okBTN.setOnClickListener( v -> {
+            noReqAddedDialog.dismiss();
+        });
+    }
+
+    private void showTempErrorDialog()
+    {
+        tempErrorDialog = new Dialog(this);
+        tempErrorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view = LayoutInflater.from(this).inflate(R.layout.temp_error_dialog, null);
+        tempErrorDialog.setContentView(view);
+        tempErrorDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        tempErrorDialog.show();
+
+        Button okBTN = view.findViewById(R.id.ok_btn);
+        okBTN.setOnClickListener( v -> {
+            tempErrorDialog.dismiss();
         });
     }
 

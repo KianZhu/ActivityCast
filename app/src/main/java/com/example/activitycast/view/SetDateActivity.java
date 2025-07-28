@@ -46,7 +46,7 @@ public class SetDateActivity extends AppCompatActivity {
         Button btnConfirm = findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(v -> {
             int day = datePicker.getDayOfMonth();
-            int month = datePicker.getMonth();
+            int month = datePicker.getMonth() + 1;
             int year = datePicker.getYear();
             String activityName = getIntent().getStringExtra("activityName");
             int latitude = getIntent().getIntExtra("latitude", 0);

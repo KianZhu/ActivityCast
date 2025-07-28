@@ -1,6 +1,8 @@
 package com.example.activitycast.view.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -51,6 +53,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public MyViewHolder(ActivityreqListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    ActivityReq clickedChatGroup = activityReqArrayList.get(position);
+//                    Intent i = new Intent(v.getContext(), ChatActivity.class);
+//                    i.putExtra("GROUP_NAME", clickedChatGroup.getGroupName());
+//                    v.getContext().startActivity(i);
+                }
+            });
         }
     }
 }

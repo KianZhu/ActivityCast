@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
-        viewModel.deleteAllActivityReq();
-        ActivityReq testReq1 = new ActivityReq();
-        testReq1.setName("Badminton");
-        testReq1.setYear(2025);
-        testReq1.setMonth(8);
-        testReq1.setDate(12);
-        viewModel.addNewActivityReq(testReq1);
+//        viewModel.deleteAllActivityReq();
+//        ActivityReq testReq1 = new ActivityReq();
+//        testReq1.setName("Badminton");
+//        testReq1.setYear(2025);
+//        testReq1.setMonth(8);
+//        testReq1.setDate(12);
+//        viewModel.addNewActivityReq(testReq1);
 
         viewModel.getAllActivityReq().observe(this, activityReqs -> {
             activityReqArrayList.clear();

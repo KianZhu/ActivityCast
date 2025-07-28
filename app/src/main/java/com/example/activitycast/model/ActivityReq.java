@@ -1,14 +1,52 @@
 package com.example.activitycast.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "activityreq_table")
-public class ActivityReq {
+public class ActivityReq implements Parcelable {
 
     public ActivityReq() {
     }
+
+    protected ActivityReq(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        year = in.readInt();
+        month = in.readInt();
+        date = in.readInt();
+        startHour = in.readInt();
+        endHour = in.readInt();
+        minTemp = in.readInt();
+        maxTemp = in.readInt();
+        rain = in.readByte() != 0;
+        snow = in.readByte() != 0;
+        visibility = in.readInt();
+        windLow = in.readByte() != 0;
+        windSet = in.readByte() != 0;
+        aqi = in.readInt();
+        notes = in.readString();
+        dateStringISO = in.readString();
+    }
+
+    public static final Creator<ActivityReq> CREATOR = new Creator<ActivityReq>() {
+        @Override
+        public ActivityReq createFromParcel(Parcel in) {
+            return new ActivityReq(in);
+        }
+
+        @Override
+        public ActivityReq[] newArray(int size) {
+            return new ActivityReq[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -66,12 +104,20 @@ public class ActivityReq {
         this.date = date;
     }
 
-    public int getHour() {
-        return hour;
+    public int getStartHour() {
+        return startHour;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setStartHour(int startHour) {
+        this.startHour = startHour;
+    }
+
+    public int getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(int endHour) {
+        this.endHour = endHour;
     }
 
     public int getMinTemp() {
@@ -176,8 +222,11 @@ public class ActivityReq {
     @ColumnInfo(name = "date")
     private int date;
 
-    @ColumnInfo(name = "hour")
-    private int hour;
+    @ColumnInfo(name = "startHour")
+    private int startHour;
+
+    @ColumnInfo(name = "endHour")
+    private int endHour;
 
     @ColumnInfo(name = "minTemp")
     private int minTemp;
@@ -207,4 +256,32 @@ public class ActivityReq {
     private String notes;
 
     private String dateStringISO;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeInt(year);
+        dest.writeInt(month);
+        dest.writeInt(date);
+        dest.writeInt(startHour);
+        dest.writeInt(endHour);
+        dest.writeInt(minTemp);
+        dest.writeInt(maxTemp);
+        dest.writeByte((byte) (rain ? 1 : 0));
+        dest.writeByte((byte) (snow ? 1 : 0));
+        dest.writeInt(visibility);
+        dest.writeByte((byte) (windLow ? 1 : 0));
+        dest.writeByte((byte) (windSet ? 1 : 0));
+        dest.writeInt(aqi);
+        dest.writeString(notes);
+        dest.writeString(dateStringISO);
+    }
 }
