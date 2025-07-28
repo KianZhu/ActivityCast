@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">30"/>
+                    android:text="30"/>
                 <RadioButton
                     android:id="@+id/min25"
                     android:layout_marginTop="-15dp"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">25"/>
+                    android:text="25"/>
                 <RadioButton
                     android:id="@+id/min20"
                     android:layout_marginTop="-15dp"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">20"/>
+                    android:text="20"/>
                 <RadioButton
                     android:id="@+id/min10"
                     android:layout_marginTop="-15dp"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">10"/>
+                    android:text="10"/>
                 <RadioButton
                     android:id="@+id/min0"
                     android:layout_marginTop="-15dp"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">0"/>
+                    android:text="0"/>
                 <RadioButton
                     android:id="@+id/minn5"
                     android:layout_marginTop="-15dp"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">-5"/>
+                    android:text="-5"/>
                 <RadioButton
                     android:id="@+id/minn10"
                     android:layout_marginTop="-15dp"
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">-10"/>
+                    android:text="-10"/>
                 <RadioButton
                     android:id="@+id/minn20"
                     android:layout_marginTop="-15dp"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:buttonTint="@color/radio_color_selector"
-                    android:text=">-20"/>
+                    android:text="-20"/>
             </RadioGroup>
 
 

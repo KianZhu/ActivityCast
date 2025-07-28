@@ -28,7 +28,7 @@ import com.example.activitycast.viewmodel.MyViewModel;
 public class SetReqActivity extends AppCompatActivity {
 
     private MyViewModel viewModel;
-    private int minTemp;
+    private int minTemp = -99;
     private int maxTemp;
     private boolean rain;
     private boolean snow;
@@ -39,6 +39,7 @@ public class SetReqActivity extends AppCompatActivity {
     private ActivitySetReqBinding binding;
     private int requirementsAdded = 0;
     private Dialog minTempDialog;
+    private Dialog maxTempDialog;
 
 
     @Override
@@ -66,10 +67,21 @@ public class SetReqActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
         binding.addMinTempBtn.setOnClickListener(v -> {showMinTempDialog();});
+        binding.addMaxTempBtn.setOnClickListener(v -> {showMaxTempDialog();});
 
 
 
+        binding.rmvMinTempBtn.setOnClickListener(v -> {minTemp = -99;
+            requirementsAdded--;
+            binding.addMinTempBtn.setVisibility(View.VISIBLE);
+            binding.rmvMinTempBtn.setVisibility(View.INVISIBLE);
+        });
 
+        binding.rmvMaxTempBtn.setOnClickListener(v -> {minTemp = 99;
+            requirementsAdded--;
+            binding.addMaxTempBtn.setVisibility(View.VISIBLE);
+            binding.rmvMaxTempBtn.setVisibility(View.INVISIBLE);
+        });
     }
 
 
@@ -103,7 +115,45 @@ public class SetReqActivity extends AppCompatActivity {
             else if (selectedId == R.id.minn10) minTemp = -10;
             else if (selectedId == R.id.minn20) minTemp = -20;
             requirementsAdded++;
+            binding.addMinTempBtn.setVisibility(View.INVISIBLE);
+            binding.rmvMinTempBtn.setVisibility(View.VISIBLE);
             minTempDialog.dismiss();
+        });
+    }
+
+    private void showMaxTempDialog()
+    {
+        maxTempDialog = new Dialog(this);
+        maxTempDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view = LayoutInflater.from(this).inflate(R.layout.max_temp_dialog, null);
+        maxTempDialog.setContentView(view);
+        maxTempDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        maxTempDialog.show();
+
+        RadioGroup radioGroup = maxTempDialog.findViewById(R.id.radioGroup);
+        ColorStateList tint = ContextCompat.getColorStateList(this.getApplicationContext(), R.color.radio_color_selector);
+
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            View child = radioGroup.getChildAt(i);
+            ((RadioButton) child).setButtonTintList(tint);
+        }
+
+        Button submit = view.findViewById(R.id.submit_btn);
+        submit.setOnClickListener( v -> {
+            int selectedId = radioGroup.getCheckedRadioButtonId();
+            if (selectedId == -1) return;
+            if (selectedId == R.id.min30) minTemp = 30;
+            else if (selectedId == R.id.min25) minTemp = 25;
+            else if (selectedId == R.id.min20) minTemp = 20;
+            else if (selectedId == R.id.min10) minTemp = 10;
+            else if (selectedId == R.id.min0) minTemp = 0;
+            else if (selectedId == R.id.minn5) minTemp = -5;
+            else if (selectedId == R.id.minn10) minTemp = -10;
+            else if (selectedId == R.id.minn20) minTemp = -20;
+            requirementsAdded++;
+            binding.addMaxTempBtn.setVisibility(View.INVISIBLE);
+            binding.rmvMaxTempBtn.setVisibility(View.VISIBLE);
+            maxTempDialog.dismiss();
         });
     }
 
