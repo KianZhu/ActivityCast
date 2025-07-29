@@ -27,6 +27,8 @@ import com.example.activitycast.databinding.ActivitySetReqBinding;
 import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.viewmodel.MyViewModel;
 
+import java.util.Objects;
+
 public class SetReqActivity extends AppCompatActivity {
 
     private MyViewModel viewModel;
@@ -172,6 +174,12 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setNotes(binding.notesEDT.getText().toString());
                 viewModel.addNewActivityReq(newReq);
                 Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
+
+                viewModel.getNewestActivityReq().observe(this, activityReq -> {
+                    System.out.println(activityReq.getName());
+                });
+
+
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }

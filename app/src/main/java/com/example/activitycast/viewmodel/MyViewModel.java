@@ -50,6 +50,11 @@ public class MyViewModel extends AndroidViewModel {
         return cityMutableLiveData;
     }
 
+    public LiveData<ActivityReq> getNewestActivityReq()
+    {
+        return myRepository.getNewestActivityReq();
+    }
+
     public void setCityMutableLiveData(MutableLiveData<List<CityResultInd>> cityMutableLiveData) {
         this.cityMutableLiveData = cityMutableLiveData;
     }

@@ -75,6 +75,11 @@ public class Repository {
         return activityReqDao.getAllActivityReq();
     }
 
+    public LiveData<ActivityReq> getNewestActivityReq()
+    {
+        return activityReqDao.getNewestActivityReq();
+    }
+
     public MutableLiveData<List<CityResultInd>> getCityMutableLiveData(String cityName)
     {
         ApiService locationApiService = RetrofitInstance.getLocationApiService();

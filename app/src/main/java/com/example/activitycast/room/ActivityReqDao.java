@@ -23,4 +23,7 @@ public interface ActivityReqDao {
 
     @Query("SELECT * FROM activityreq_table")
     LiveData<List<ActivityReq>> getAllActivityReq();
+
+    @Query("SELECT * FROM activityreq_table ORDER BY id DESC LIMIT 1")
+    LiveData<ActivityReq> getNewestActivityReq();
 }
