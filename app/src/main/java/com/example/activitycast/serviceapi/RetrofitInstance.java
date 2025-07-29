@@ -7,7 +7,7 @@ public class RetrofitInstance {
     private static Retrofit locationRetrofit = null;
     private static String LOCATION_BASE_URL = "https://geocoding-api.open-meteo.com/v1/";
 
-    public static LocationApiService getLocationApiService()
+    public static ApiService getLocationApiService()
     {
         if (locationRetrofit == null)
         {
@@ -16,6 +16,6 @@ public class RetrofitInstance {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return locationRetrofit.create(LocationApiService.class);
+        return locationRetrofit.create(ApiService.class);
     }
 }

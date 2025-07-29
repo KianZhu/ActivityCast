@@ -193,11 +193,23 @@ public class ActivityReq implements Parcelable {
     }
 
     public String getDateStringISO() {
-        return "" + year + "-" + month + "-" + date;
+        String monthText = Integer.toString(month);
+        String dateText = Integer.toString(date);
+        if (month < 10) monthText = "0" + monthText;
+        if (date < 10) dateText = "0" + dateText;
+        return "" + year + "-" + monthText + "-" + dateText;
     }
 
     public void setDateStringISO(String dateStringISO) {
         this.dateStringISO = dateStringISO;
+    }
+
+    public boolean isConflict() {
+        return isConflict;
+    }
+
+    public void setConflict(boolean conflict) {
+        isConflict = conflict;
     }
 
     @ColumnInfo(name = "id")
@@ -255,7 +267,11 @@ public class ActivityReq implements Parcelable {
     @ColumnInfo(name = "notes")
     private String notes;
 
+    @ColumnInfo(name = "isConflict")
+    private boolean isConflict;
+
     private String dateStringISO;
+
 
     @Override
     public int describeContents() {

@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface LocationApiService {
+public interface ApiService {
 
     @GET("search")
     Call<CityResult> getCityResults(@Query("name") String cityName);

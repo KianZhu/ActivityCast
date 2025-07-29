@@ -13,7 +13,7 @@ import com.example.activitycast.model.CityResult;
 import com.example.activitycast.model.CityResultInd;
 import com.example.activitycast.room.ActivityReqDao;
 import com.example.activitycast.room.ActivityReqDatabase;
-import com.example.activitycast.serviceapi.LocationApiService;
+import com.example.activitycast.serviceapi.ApiService;
 import com.example.activitycast.serviceapi.RetrofitInstance;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class Repository {
 
     public MutableLiveData<List<CityResultInd>> getCityMutableLiveData(String cityName)
     {
-        LocationApiService locationApiService = RetrofitInstance.getLocationApiService();
+        ApiService locationApiService = RetrofitInstance.getLocationApiService();
         Call<CityResult> call = locationApiService.getCityResults(cityName);
         call.enqueue(new Callback<CityResult>() {
             @Override

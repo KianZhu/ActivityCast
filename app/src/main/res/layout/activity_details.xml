@@ -47,12 +47,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/time"
                 android:text="14h - 16h"
                 android:textSize="18sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox "/>
+                android:id="@+id/notes"/>
         </LinearLayout>
 
         <TextView
@@ -69,7 +70,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="＞20"
+            android:text="Not specified"
             android:textColor="@color/blue"
             android:id="@+id/minTempRequired"
             android:textSize="20sp"
@@ -86,8 +87,8 @@
             android:textSize="20sp"
             android:id="@+id/minTempForecasted"
             app:layout_constraintTop_toBottomOf="@+id/minTempTitle"
-            app:layout_constraintStart_toEndOf="@+id/minTempRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toEndOf="@+id/minTempTitle"
+            android:layout_marginLeft="0dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,8 +121,7 @@
             android:textSize="20sp"
             android:id="@+id/maxTempForecasted"
             app:layout_constraintTop_toBottomOf="@+id/maxTempTitle"
-            app:layout_constraintStart_toEndOf="@+id/maxTempRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,8 +154,7 @@
             android:textSize="20sp"
             android:id="@+id/rainForecasted"
             app:layout_constraintTop_toBottomOf="@+id/rainTitle"
-            app:layout_constraintStart_toEndOf="@+id/rainRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -188,8 +187,7 @@
             android:textSize="20sp"
             android:id="@+id/snowForecasted"
             app:layout_constraintTop_toBottomOf="@+id/snowTitle"
-            app:layout_constraintStart_toEndOf="@+id/snowRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -222,8 +220,7 @@
             android:textSize="20sp"
             android:id="@+id/visForecasted"
             app:layout_constraintTop_toBottomOf="@+id/visTitle"
-            app:layout_constraintStart_toEndOf="@+id/visRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -256,8 +253,7 @@
             android:textSize="20sp"
             android:id="@+id/windSpdForecasted"
             app:layout_constraintTop_toBottomOf="@+id/windSpdTitle"
-            app:layout_constraintStart_toEndOf="@+id/windSpdRequired"
-            android:layout_marginLeft="48dp"/>
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
         <Button
             android:layout_width="wrap_content"
