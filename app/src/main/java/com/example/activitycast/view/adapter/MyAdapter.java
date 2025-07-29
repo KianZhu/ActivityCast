@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivityreqListItemBinding;
 import com.example.activitycast.model.ActivityReq;
+import com.example.activitycast.view.DetailsActivity;
 
 import java.util.ArrayList;
 
@@ -56,11 +57,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    ActivityReq clickedChatGroup = activityReqArrayList.get(position);
-//                    Intent i = new Intent(v.getContext(), ChatActivity.class);
-//                    i.putExtra("GROUP_NAME", clickedChatGroup.getGroupName());
-//                    v.getContext().startActivity(i);
+                    int position = getAdapterPosition();
+                    ActivityReq activity = activityReqArrayList.get(position);
+                    Intent i = new Intent(v.getContext(), DetailsActivity.class);
+                    i.putExtra("activity", activity);
+                    v.getContext().startActivity(i);
                 }
             });
         }

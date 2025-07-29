@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="activityReq"
+            type="com.example.activitycast.model.ActivityReq" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.DetailsActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{activityReq.name}"
+            android:id="@+id/title"
+            android:textSize="30sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="110dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginRight="16dp"
+            android:id="@+id/header"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{activityReq.dateStringISO}"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14h - 16h"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog the quick brown fox "/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Min. Temperature (°C)"
+            android:id="@+id/minTempTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/header"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            android:layout_marginTop="36dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="＞20"
+            android:textColor="@color/blue"
+            android:id="@+id/minTempRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/minTempTitle"
+            app:layout_constraintStart_toStartOf="@+id/minTempTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            android:id="@+id/minTempForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/minTempTitle"
+            app:layout_constraintStart_toEndOf="@+id/minTempRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Max. Temperature (°C)"
+            android:id="@+id/maxTempTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/minTempTitle"
+            app:layout_constraintTop_toBottomOf="@+id/minTempRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="＜30"
+            android:textColor="@color/blue"
+            android:id="@+id/maxTempRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/maxTempTitle"
+            app:layout_constraintStart_toStartOf="@+id/maxTempTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            android:id="@+id/maxTempForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/maxTempTitle"
+            app:layout_constraintStart_toEndOf="@+id/maxTempRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rain/Shower"
+            android:id="@+id/rainTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/minTempTitle"
+            app:layout_constraintTop_toBottomOf="@+id/maxTempRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textColor="@color/blue"
+            android:id="@+id/rainRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/rainTitle"
+            app:layout_constraintStart_toStartOf="@+id/rainTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:id="@+id/rainForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/rainTitle"
+            app:layout_constraintStart_toEndOf="@+id/rainRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Snow"
+            android:id="@+id/snowTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/rainTitle"
+            app:layout_constraintTop_toBottomOf="@+id/rainRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textColor="@color/blue"
+            android:id="@+id/snowRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/snowTitle"
+            app:layout_constraintStart_toStartOf="@+id/snowTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            android:id="@+id/snowForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/snowTitle"
+            app:layout_constraintStart_toEndOf="@+id/snowRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visibility (m)"
+            android:id="@+id/visTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/snowTitle"
+            app:layout_constraintTop_toBottomOf="@+id/snowRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="＞500"
+            android:textColor="@color/blue"
+            android:id="@+id/visRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/visTitle"
+            app:layout_constraintStart_toStartOf="@+id/visTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7,000"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            android:id="@+id/visForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/visTitle"
+            app:layout_constraintStart_toEndOf="@+id/visRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wind Speed (km/h)"
+            android:id="@+id/windSpdTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/visTitle"
+            app:layout_constraintTop_toBottomOf="@+id/visRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="＜10"
+            android:textColor="@color/blue"
+            android:id="@+id/windSpdRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/windSpdTitle"
+            app:layout_constraintStart_toStartOf="@+id/windSpdTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="19"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:id="@+id/windSpdForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/windSpdTitle"
+            app:layout_constraintStart_toEndOf="@+id/windSpdRequired"
+            android:layout_marginLeft="48dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Full List"
+            android:id="@+id/backBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="128dp"
+            android:backgroundTint="@color/blue"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
