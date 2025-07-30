@@ -21,11 +21,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivitySetReqBinding;
 import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.viewmodel.MyViewModel;
+import com.example.activitycast.worker.InitialForecastWorker;
 
 import java.util.Objects;
 
@@ -66,8 +70,8 @@ public class SetReqActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_set_req);
 
         String activityName = getIntent().getStringExtra("activityName");
-        double latitude = getIntent().getDoubleExtra("latitude", 0);
-        double longitude = getIntent().getDoubleExtra("longitude", 0);
+        float latitude = getIntent().getFloatExtra("latitude", 0);
+        float longitude = getIntent().getFloatExtra("longitude", 0);
         int year = getIntent().getIntExtra("year", 0);
         int month = getIntent().getIntExtra("month", 0);
         int day = getIntent().getIntExtra("day", 0);
@@ -174,10 +178,12 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setNotes(binding.notesEDT.getText().toString());
                 viewModel.addNewActivityReq(newReq);
                 Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
+                WorkRequest wr = new OneTimeWorkRequest.Builder(InitialForecastWorker.class).build();
+                WorkManager.getInstance(getApplicationContext()).enqueue(wr);
 
-                viewModel.getNewestActivityReq().observe(this, activityReq -> {
-                    System.out.println(activityReq.getName());
-                });
+//                viewModel.getNewestActivityReq().observe(this, activityReq -> {
+//                    System.out.println(activityReq.getName());
+//                });
 
 
                 Intent intent = new Intent(this, MainActivity.class);

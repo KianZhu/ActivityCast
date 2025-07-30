@@ -17,8 +17,8 @@ public class ActivityReq implements Parcelable {
     protected ActivityReq(Parcel in) {
         id = in.readInt();
         name = in.readString();
-        latitude = in.readDouble();
-        longitude = in.readDouble();
+        latitude = in.readFloat();
+        longitude = in.readFloat();
         year = in.readInt();
         month = in.readInt();
         date = in.readInt();
@@ -64,19 +64,19 @@ public class ActivityReq implements Parcelable {
         this.name = name;
     }
 
-    public double getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
@@ -197,7 +197,7 @@ public class ActivityReq implements Parcelable {
         String dateText = Integer.toString(date);
         if (month < 10) monthText = "0" + monthText;
         if (date < 10) dateText = "0" + dateText;
-        return "" + year + "-" + monthText + "-" + dateText;
+        return year + "-" + monthText + "-" + dateText;
     }
 
     public void setDateStringISO(String dateStringISO) {
@@ -220,10 +220,10 @@ public class ActivityReq implements Parcelable {
     private String name;
 
     @ColumnInfo(name = "latitude")
-    private double latitude;
+    private float latitude;
 
     @ColumnInfo(name = "longitude")
-    private double longitude;
+    private float longitude;
 
     @ColumnInfo(name = "year")
     private int year;
@@ -282,8 +282,8 @@ public class ActivityReq implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
+        dest.writeFloat(latitude);
+        dest.writeFloat(longitude);
         dest.writeInt(year);
         dest.writeInt(month);
         dest.writeInt(date);

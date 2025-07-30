@@ -53,9 +53,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
                 int position = getAdapterPosition();
                 CityResultInd clickedResult = cityList.get(position);
                 Intent i = new Intent(v.getContext(), SetDateActivity.class);
+                System.out.println(clickedResult.getLatitude());
+                System.out.println(clickedResult.getLongitude());
                 i.putExtra("activityName", activityName);
-                i.putExtra("latitude", clickedResult.getLatitude());
-                i.putExtra("longitude", clickedResult.getLongitude());
+                i.putExtra("latitude", (float) clickedResult.getLatitude());
+                i.putExtra("longitude", (float) clickedResult.getLongitude());
                 v.getContext().startActivity(i);
             });
         }

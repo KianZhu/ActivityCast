@@ -50,7 +50,7 @@ public class MyViewModel extends AndroidViewModel {
         return cityMutableLiveData;
     }
 
-    public LiveData<ActivityReq> getNewestActivityReq()
+    public ActivityReq getNewestActivityReq()
     {
         return myRepository.getNewestActivityReq();
     }

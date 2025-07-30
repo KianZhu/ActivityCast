@@ -13,10 +13,10 @@ public class CityResultInd {
     private String name;
     @SerializedName("latitude")
     @Expose
-    private Double latitude;
+    private Float latitude;
     @SerializedName("longitude")
     @Expose
-    private Double longitude;
+    private Float longitude;
     @SerializedName("elevation")
     @Expose
     private Integer elevation;
@@ -78,19 +78,19 @@ public class CityResultInd {
         this.name = name;
     }
 
-    public Double getLatitude() {
+    public Float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(Float latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public Float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(Float longitude) {
         this.longitude = longitude;
     }
 

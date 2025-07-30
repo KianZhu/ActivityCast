@@ -49,8 +49,8 @@ public class SetDateActivity extends AppCompatActivity {
             int month = datePicker.getMonth() + 1;
             int year = datePicker.getYear();
             String activityName = getIntent().getStringExtra("activityName");
-            int latitude = getIntent().getIntExtra("latitude", 0);
-            int longitude = getIntent().getIntExtra("longitude", 0);
+            float latitude = getIntent().getFloatExtra("latitude", 0);
+            float longitude = getIntent().getFloatExtra("longitude", 0);
             Intent i = new Intent(v.getContext(), SetTimeActivity.class);
             i.putExtra("activityName", activityName);
             i.putExtra("latitude", latitude);

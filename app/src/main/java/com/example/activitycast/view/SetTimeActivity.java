@@ -54,8 +54,8 @@ public class SetTimeActivity extends AppCompatActivity {
                 showDialog();
             } else {
                 String activityName = getIntent().getStringExtra("activityName");
-                int latitude = getIntent().getIntExtra("latitude", 0);
-                int longitude = getIntent().getIntExtra("longitude", 0);
+                float latitude = getIntent().getFloatExtra("latitude", 0);
+                float longitude = getIntent().getFloatExtra("longitude", 0);
                 int day = getIntent().getIntExtra("day", 0);
                 int month = getIntent().getIntExtra("month", 0);
                 int year = getIntent().getIntExtra("year", 0);

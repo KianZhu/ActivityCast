@@ -57,4 +57,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("androidx.compose.material:material:1.8.3")
     implementation("com.google.android.material:material:1.12.0")
+
+    val work_version = "2.10.2"
+    implementation("androidx.work:work-runtime:$work_version")
 }
