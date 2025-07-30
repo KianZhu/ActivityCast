@@ -14,11 +14,14 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.activitycast.R;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
 public class SetDateActivity extends AppCompatActivity {
 
     private DatePicker datePicker;
+    private LocalDate todayTemporal = LocalDate.now();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,15 @@ public class SetDateActivity extends AppCompatActivity {
             float latitude = getIntent().getFloatExtra("latitude", 0);
             float longitude = getIntent().getFloatExtra("longitude", 0);
             Intent i = new Intent(v.getContext(), SetTimeActivity.class);
+
+            LocalDate selectedDate = LocalDate.of(year, month, day);
+            long daysBetween = ChronoUnit.DAYS.between(todayTemporal, selectedDate);
+            if (Math.abs(daysBetween) <= 5) {
+                i.putExtra("aqiAvailable", true);
+            } else {
+                i.putExtra("aqiAvailable", false);
+            }
+
             i.putExtra("activityName", activityName);
             i.putExtra("latitude", latitude);
             i.putExtra("longitude", longitude);

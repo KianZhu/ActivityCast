@@ -40,6 +40,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         ActivityReq current = activityReqArrayList.get(i);
         myViewHolder.binding.setActivityreq(current);
+        if (current.isConflict()) myViewHolder.binding.alertIcon.setVisibility(View.VISIBLE);
+        else myViewHolder.binding.alertIcon.setVisibility(View.INVISIBLE);
     }
 
     @Override

@@ -78,6 +78,7 @@ public class SetReqActivity extends AppCompatActivity {
         int day = getIntent().getIntExtra("day", 0);
         int startHour = getIntent().getIntExtra("startHour", 0);
         int endHour = getIntent().getIntExtra("endHour", 0);
+        Boolean aqiAvailable = getIntent().getBooleanExtra("aqiAvailable", false);
 
         viewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
@@ -177,6 +178,7 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setWindSet(windSet);
                 newReq.setAqi(aqi);
                 newReq.setNotes(binding.notesEDT.getText().toString());
+                newReq.setAqiAvailable(aqiAvailable);
                 viewModel.addNewActivityReq(newReq);
                 Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
                 WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).build();

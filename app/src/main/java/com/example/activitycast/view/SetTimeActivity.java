@@ -59,6 +59,7 @@ public class SetTimeActivity extends AppCompatActivity {
                 int day = getIntent().getIntExtra("day", 0);
                 int month = getIntent().getIntExtra("month", 0);
                 int year = getIntent().getIntExtra("year", 0);
+                boolean aqiAvailable = getIntent().getBooleanExtra("aqiAvailable", false);
                 Intent i = new Intent(SetTimeActivity.this, SetReqActivity.class);
                 i.putExtra("activityName", activityName);
                 i.putExtra("latitude", latitude);
@@ -68,6 +69,7 @@ public class SetTimeActivity extends AppCompatActivity {
                 i.putExtra("year", year);
                 i.putExtra("startHour", startHour);
                 i.putExtra("endHour", endHour);
+                i.putExtra("aqiAvailable", aqiAvailable);
                 startActivity(i);
             }
         });

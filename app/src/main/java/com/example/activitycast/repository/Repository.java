@@ -12,6 +12,7 @@ import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.model.CityResult;
 import com.example.activitycast.model.CityResultInd;
 import com.example.activitycast.model.WeatherHourly;
+import com.example.activitycast.model.unused.AqiResult;
 import com.example.activitycast.model.unused.WeatherResult;
 import com.example.activitycast.room.ActivityReqDao;
 import com.example.activitycast.room.ActivityReqDatabase;
@@ -147,8 +148,15 @@ public class Repository {
 //        return weatherHourlyMutableLiveData;
 //    }
 
-    public WeatherResult getWeatherResult(float latitude, float longitude, String date) throws IOException {
+    public WeatherResult getWeatherResult(float latitude, float longitude, String date) throws IOException
+    {
         ApiService weatherApiService = RetrofitInstance.getWeatherApiService();
         return weatherApiService.getWeatherResults((float) latitude, (float) longitude, "temperature_2m,rain,showers,snowfall,visibility,wind_speed_10m", "auto", date, date).execute().body();
+    }
+
+    public AqiResult getAqiResult(float latitude, float longitude, String date) throws IOException
+    {
+        ApiService aqiService = RetrofitInstance.getApiService();
+        return aqiService.getAqiResults((float) latitude, (float) longitude, "us_aqi", "auto", date, date).execute().body();
     }
 }

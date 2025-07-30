@@ -11,8 +11,10 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.activitycast.model.ActivityReq;
+import com.example.activitycast.model.AqiHourly;
 import com.example.activitycast.model.CityResultInd;
 import com.example.activitycast.model.WeatherHourly;
+import com.example.activitycast.model.unused.AqiResult;
 import com.example.activitycast.model.unused.WeatherResult;
 import com.example.activitycast.repository.Repository;
 import com.example.activitycast.view.adapter.LocationAdapter;
@@ -47,21 +49,34 @@ public class SingleActivityWorker extends Worker {
 //            }
 //        });
         WeatherResult weatherResult;
+        AqiResult aqiResult;
+
         try {
             weatherResult = repository.getWeatherResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         WeatherHourly weatherHourly = weatherResult.getHourly();
         activityReq.setConflict(false);
-        System.out.println("I am in here");
         activityReq.setMinTempForecasted(getMinTemp(weatherHourly, activityReq));
-        System.out.println(activityReq.getMinTempForecasted());
         activityReq.setMaxTempForecasted(getMaxTemp(weatherHourly, activityReq));
         activityReq.setRainForecasted(getRain(weatherHourly, activityReq));
         activityReq.setSnowForecasted(getSnow(weatherHourly, activityReq));
         activityReq.setVisibilityForecasted(getMinVisibility(weatherHourly, activityReq));
         activityReq.setWindSpeedForecasted(getWorstWindSpeed(weatherHourly, activityReq));
+
+        if (activityReq.isAqiAvailable())
+        {
+            try {
+                aqiResult = repository.getAqiResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            AqiHourly aqiHourly = aqiResult.getHourly();
+            activityReq.setAqiForecasted(getAqi(aqiHourly, activityReq));
+        }
+
         repository.updateActivityReq(activityReq);
         return Result.success();
     }
@@ -164,5 +179,19 @@ public class SingleActivityWorker extends Worker {
                 return minWindSpeed;
             }
         }
+    }
+
+    private int getAqi(AqiHourly aqiHourly, ActivityReq activityReq)
+    {
+        List<Integer> aqiList = aqiHourly.getUsAqi();
+        Integer maxAqi = -1;
+        for (int i = activityReq.getStartHour(); i <= activityReq.getEndHour(); i++)
+        {
+            Integer aqi = aqiList.get(i);
+            if (aqi == null) continue;
+            if (aqi > maxAqi) maxAqi = aqi;
+        }
+        if (maxAqi == -1) activityReq.setAqiAvailable(false);
+        return maxAqi;
     }
 }

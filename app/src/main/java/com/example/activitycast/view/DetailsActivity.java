@@ -57,6 +57,12 @@ public class DetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(activity.getName());
+        }
+
+        System.out.println(activity.getId());
+
     }
 
 
@@ -119,13 +125,51 @@ public class DetailsActivity extends AppCompatActivity {
         binding.time.setText(time);
         binding.notes.setText(notes);
 
-        binding.minTempForecasted.setText(String.valueOf(activity.getMinTempForecasted()));
-        System.out.println(activity.getMinTempForecasted());
-        binding.maxTempForecasted.setText(String.valueOf(activity.getMaxTempForecasted()));
-        binding.rainForecasted.setText(activity.isRainForecasted() ? "Yes" : "No");
-        binding.snowForecasted.setText(activity.isSnowForecasted() ? "Yes" : "No");
-        binding.visForecasted.setText(String.valueOf(activity.getVisibilityForecasted()));
+        double minTempForecasted = activity.getMinTempForecasted();
+        double maxTempForecasted = activity.getMaxTempForecasted();
+        Boolean isRainForecasted = activity.isRainForecasted();
+        Boolean isSnowForecasted = activity.isSnowForecasted();
+        int visibilityForecasted = activity.getVisibilityForecasted();
+        double windSpeedForecasted = activity.getWindSpeedForecasted();
+
+        binding.minTempForecasted.setText(String.valueOf(minTempForecasted));
+        if (minTempForecasted < activity.getMinTemp()) binding.minTempForecasted.setTextColor(getResources().getColor(R.color.red));
+        binding.maxTempForecasted.setText(String.valueOf(maxTempForecasted));
+        if (maxTempForecasted > activity.getMaxTemp()) binding.maxTempForecasted.setTextColor(getResources().getColor(R.color.red));
+        binding.rainForecasted.setText(isRainForecasted ? "Yes" : "No");
+        if (isRainForecasted && activity.isRain()) binding.rainForecasted.setTextColor(getResources().getColor(R.color.red));
+        binding.snowForecasted.setText(isSnowForecasted ? "Yes" : "No");
+        if (isSnowForecasted && activity.isSnow()) binding.snowForecasted.setTextColor(getResources().getColor(R.color.red));
+        binding.visForecasted.setText(String.valueOf(visibilityForecasted));
+        if (visibilityForecasted < activity.getVisibility()) binding.visForecasted.setTextColor(getResources().getColor(R.color.red));
         binding.windSpdForecasted.setText(String.valueOf(activity.getWindSpeedForecasted()));
+        if (activity.isWindSet())
+        {
+            if (activity.isWindLow()){
+                if (windSpeedForecasted >= 10) binding.windSpdForecasted.setTextColor(getResources().getColor(R.color.red));
+            } else{
+                if (windSpeedForecasted < 10) binding.windSpdForecasted.setTextColor(getResources().getColor(R.color.red));
+            }
+        }
+
+        String aqiForecastedString;
+        if (activity.isAqiAvailable())
+        {
+            int aqiForecasted = activity.getAqiForecasted();
+            if (aqiForecasted <= 50) aqiForecastedString = "Good";
+            else if (aqiForecasted <= 100) aqiForecastedString = "Moderate";
+            else if (aqiForecasted <= 150) aqiForecastedString = "Unhealthy for Sensitive Groups";
+            else if (aqiForecasted <= 200) aqiForecastedString = "Unhealthy";
+            else if (aqiForecasted <= 300) aqiForecastedString = "Very Unhealthy";
+            else aqiForecastedString = "Hazardous";
+            if (aqiForecasted > activity.getAqi()) binding.aqiForecasted.setTextColor(getResources().getColor(R.color.red));
+        }
+        else
+        {
+            aqiForecastedString = "Unavailable";
+            binding.aqiForecasted.setTextColor(getResources().getColor(R.color.grey));
+        }
+        binding.aqiForecasted.setText(aqiForecastedString);
 
     }
 }
