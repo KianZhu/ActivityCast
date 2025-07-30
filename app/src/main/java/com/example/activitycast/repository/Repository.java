@@ -82,6 +82,11 @@ public class Repository {
         return activityReqDao.getAllActivityReq();
     }
 
+    public List<ActivityReq> getAllActivityReqNonLD()
+    {
+        return activityReqDao.getAllActivityReqNonLD();
+    }
+
     public ActivityReq getNewestActivityReq()
     {
         return activityReqDao.getNewestActivityReq();

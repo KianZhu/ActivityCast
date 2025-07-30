@@ -1,7 +1,9 @@
 package com.example.activitycast.view;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,6 +23,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -30,6 +34,7 @@ import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.room.ActivityReqDatabase;
 import com.example.activitycast.view.adapter.MyAdapter;
 import com.example.activitycast.viewmodel.MyViewModel;
+import com.example.activitycast.worker.MultiActivityWorker;
 import com.example.activitycast.worker.SingleActivityWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -84,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
                 showDialog();
             }
         });
+
+        boolean newReqAdded = getIntent().getBooleanExtra("newReqAdded", false);
+        System.out.println("New Req Added? : " + newReqAdded);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+        }
     }
 
     private void showDialog()
@@ -122,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_goto_second) {
 //            startActivity(new Intent(this,  ManualActivity.class));
-            WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).build();
+            Data data = new Data.Builder().putBoolean("needsNotification", true).build();
+            WorkRequest wr = new OneTimeWorkRequest.Builder(MultiActivityWorker.class).setInputData(data).build();
             WorkManager.getInstance(getApplicationContext()).enqueue(wr);
             return true;
         }

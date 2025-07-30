@@ -185,6 +185,7 @@ public class SetReqActivity extends AppCompatActivity {
                 WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(wr);
                 Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("newReqAdded", true);
                 startActivity(intent);
             }
 
