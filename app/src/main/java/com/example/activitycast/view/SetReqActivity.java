@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -29,7 +30,7 @@ import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivitySetReqBinding;
 import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.viewmodel.MyViewModel;
-import com.example.activitycast.worker.InitialForecastWorker;
+import com.example.activitycast.worker.SingleActivityWorker;
 
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public class SetReqActivity extends AppCompatActivity {
     private int visibility = -1;
     private boolean windLow = false;
     private boolean windSet = false;
-    private int aqi = 0;
+    private int aqi = 700;
 
     private ActivitySetReqBinding binding;
     private int requirementsAdded = 0;
@@ -178,7 +179,7 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setNotes(binding.notesEDT.getText().toString());
                 viewModel.addNewActivityReq(newReq);
                 Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
-                WorkRequest wr = new OneTimeWorkRequest.Builder(InitialForecastWorker.class).build();
+                WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(wr);
 
 //                viewModel.getNewestActivityReq().observe(this, activityReq -> {

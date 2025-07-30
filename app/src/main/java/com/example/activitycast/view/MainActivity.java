@@ -20,6 +20,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivityMainBinding;
@@ -27,6 +30,7 @@ import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.room.ActivityReqDatabase;
 import com.example.activitycast.view.adapter.MyAdapter;
 import com.example.activitycast.viewmodel.MyViewModel;
+import com.example.activitycast.worker.SingleActivityWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -117,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_goto_second) {
-            startActivity(new Intent(this, DetailsActivity.class));
+//            startActivity(new Intent(this,  ManualActivity.class));
+            WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).build();
+            WorkManager.getInstance(getApplicationContext()).enqueue(wr);
             return true;
         }
         return super.onOptionsItemSelected(item);

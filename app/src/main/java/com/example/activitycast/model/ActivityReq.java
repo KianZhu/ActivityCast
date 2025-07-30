@@ -14,6 +14,48 @@ public class ActivityReq implements Parcelable {
     public ActivityReq() {
     }
 
+//    protected ActivityReq(Parcel in) {
+//        id = in.readInt();
+//        name = in.readString();
+//        latitude = in.readFloat();
+//        longitude = in.readFloat();
+//        year = in.readInt();
+//        month = in.readInt();
+//        date = in.readInt();
+//        startHour = in.readInt();
+//        endHour = in.readInt();
+//        minTemp = in.readInt();
+//        maxTemp = in.readInt();
+//        rain = in.readByte() != 0;
+//        snow = in.readByte() != 0;
+//        visibility = in.readInt();
+//        windLow = in.readByte() != 0;
+//        windSet = in.readByte() != 0;
+//        aqi = in.readInt();
+//        notes = in.readString();
+//        dateStringISO = in.readString();
+//        isConflict = in.readByte() != 0;
+//        minTempForecasted = in.readDouble();
+//        maxTempForecasted = in.readDouble();
+//        rainForecasted = in.readByte() != 0;
+//        snowForecasted = in.readByte() != 0;
+//        visibilityForecasted = in.readInt();
+//        windSpeedForecasted = in.readDouble();
+//        aqiForecasted = in.readInt();
+//    }
+
+//    public static final Creator<ActivityReq> CREATOR = new Creator<ActivityReq>() {
+//        @Override
+//        public ActivityReq createFromParcel(Parcel in) {
+//            return new ActivityReq(in);
+//        }
+//
+//        @Override
+//        public ActivityReq[] newArray(int size) {
+//            return new ActivityReq[size];
+//        }
+//    };
+
     protected ActivityReq(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -33,6 +75,15 @@ public class ActivityReq implements Parcelable {
         windSet = in.readByte() != 0;
         aqi = in.readInt();
         notes = in.readString();
+        isConflict = in.readByte() != 0;
+        minTempForecasted = in.readDouble();
+        maxTempForecasted = in.readDouble();
+        rainForecasted = in.readByte() != 0;
+        snowForecasted = in.readByte() != 0;
+        visibilityForecasted = in.readInt();
+        windSpeedForecasted = in.readDouble();
+        aqiForecasted = in.readInt();
+        aqiAvailable = in.readByte() != 0;
         dateStringISO = in.readString();
     }
 
@@ -212,6 +263,70 @@ public class ActivityReq implements Parcelable {
         isConflict = conflict;
     }
 
+    public double getMinTempForecasted() {
+        return minTempForecasted;
+    }
+
+    public void setMinTempForecasted(double minTempForecasted) {
+        this.minTempForecasted = minTempForecasted;
+    }
+
+    public double getMaxTempForecasted() {
+        return maxTempForecasted;
+    }
+
+    public void setMaxTempForecasted(double maxTempForecasted) {
+        this.maxTempForecasted = maxTempForecasted;
+    }
+
+    public boolean isRainForecasted() {
+        return rainForecasted;
+    }
+
+    public void setRainForecasted(boolean rainForecasted) {
+        this.rainForecasted = rainForecasted;
+    }
+
+    public boolean isSnowForecasted() {
+        return snowForecasted;
+    }
+
+    public void setSnowForecasted(boolean snowForecasted) {
+        this.snowForecasted = snowForecasted;
+    }
+
+    public int getVisibilityForecasted() {
+        return visibilityForecasted;
+    }
+
+    public void setVisibilityForecasted(int visibilityForecasted) {
+        this.visibilityForecasted = visibilityForecasted;
+    }
+
+    public double getWindSpeedForecasted() {
+        return windSpeedForecasted;
+    }
+
+    public void setWindSpeedForecasted(double windSpeedForecasted) {
+        this.windSpeedForecasted = windSpeedForecasted;
+    }
+
+    public int getAqiForecasted() {
+        return aqiForecasted;
+    }
+
+    public void setAqiForecasted(int aqiForecasted) {
+        this.aqiForecasted = aqiForecasted;
+    }
+
+    public boolean isAqiAvailable() {
+        return aqiAvailable;
+    }
+
+    public void setAqiAvailable(boolean aqiAvailable) {
+        this.aqiAvailable = aqiAvailable;
+    }
+
     @ColumnInfo(name = "id")
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -270,8 +385,31 @@ public class ActivityReq implements Parcelable {
     @ColumnInfo(name = "isConflict")
     private boolean isConflict;
 
-    private String dateStringISO;
+    @ColumnInfo(name = "minTempForecasted")
+    private double minTempForecasted;
 
+    @ColumnInfo(name = "maxTempForecasted")
+    private double maxTempForecasted;
+
+    @ColumnInfo(name = "rainForecasted")
+    private boolean rainForecasted;
+
+    @ColumnInfo(name = "snowForecasted")
+    private boolean snowForecasted;
+
+    @ColumnInfo(name = "visibilityForecasted")
+    private int visibilityForecasted;
+
+    @ColumnInfo(name = "windLowForecasted")
+    private double windSpeedForecasted;
+
+    @ColumnInfo(name = "aqiForecasted")
+    private int aqiForecasted;
+
+    @ColumnInfo(name = "aqiAvailable")
+    private boolean aqiAvailable;
+
+    private String dateStringISO;
 
     @Override
     public int describeContents() {
@@ -298,6 +436,56 @@ public class ActivityReq implements Parcelable {
         dest.writeByte((byte) (windSet ? 1 : 0));
         dest.writeInt(aqi);
         dest.writeString(notes);
+        dest.writeByte((byte) (isConflict ? 1 : 0));
+        dest.writeDouble(minTempForecasted);
+        dest.writeDouble(maxTempForecasted);
+        dest.writeByte((byte) (rainForecasted ? 1 : 0));
+        dest.writeByte((byte) (snowForecasted ? 1 : 0));
+        dest.writeInt(visibilityForecasted);
+        dest.writeDouble(windSpeedForecasted);
+        dest.writeInt(aqiForecasted);
+        dest.writeByte((byte) (aqiAvailable ? 1 : 0));
         dest.writeString(dateStringISO);
     }
+
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+
+
+//    @Override
+//    public void writeToParcel(@NonNull Parcel dest, int flags) {
+//        dest.writeInt(id);
+//        dest.writeString(name);
+//        dest.writeFloat(latitude);
+//        dest.writeFloat(longitude);
+//        dest.writeInt(year);
+//        dest.writeInt(month);
+//        dest.writeInt(date);
+//        dest.writeInt(startHour);
+//        dest.writeInt(endHour);
+//        dest.writeInt(minTemp);
+//        dest.writeInt(maxTemp);
+//        dest.writeByte((byte) (rain ? 1 : 0));
+//        dest.writeByte((byte) (snow ? 1 : 0));
+//        dest.writeInt(visibility);
+//        dest.writeByte((byte) (windLow ? 1 : 0));
+//        dest.writeByte((byte) (windSet ? 1 : 0));
+//        dest.writeInt(aqi);
+//        dest.writeString(notes);
+//        dest.writeString(dateStringISO);
+//        dest.writeByte((byte) (isConflict ? 1 : 0));
+//        dest.writeDouble(minTempForecasted);
+//        dest.writeDouble(maxTempForecasted);
+//        dest.writeByte((byte) (rainForecasted ? 1 : 0));
+//        dest.writeByte((byte) (snowForecasted ? 1 : 0));
+//        dest.writeInt(visibilityForecasted);
+//        dest.writeDouble(windSpeedForecasted);
+//        dest.writeInt(aqiForecasted);
+//        dest.writeByte((byte) (aqiAvailable ? 1 : 0));
+//    }
+
+
 }

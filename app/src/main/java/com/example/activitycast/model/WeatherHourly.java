@@ -14,13 +14,13 @@ public class WeatherHourly {
     private List<Double> temperature2m;
     @SerializedName("rain")
     @Expose
-    private List<Integer> rain;
+    private List<Float> rain;
     @SerializedName("showers")
     @Expose
-    private List<Integer> showers;
+    private List<Float> showers;
     @SerializedName("snowfall")
     @Expose
-    private List<Integer> snowfall;
+    private List<Float> snowfall;
     @SerializedName("visibility")
     @Expose
     private List<Integer> visibility;
@@ -44,27 +44,27 @@ public class WeatherHourly {
         this.temperature2m = temperature2m;
     }
 
-    public List<Integer> getRain() {
+    public List<Float> getRain() {
         return rain;
     }
 
-    public void setRain(List<Integer> rain) {
+    public void setRain(List<Float> rain) {
         this.rain = rain;
     }
 
-    public List<Integer> getShowers() {
+    public List<Float> getShowers() {
         return showers;
     }
 
-    public void setShowers(List<Integer> showers) {
+    public void setShowers(List<Float> showers) {
         this.showers = showers;
     }
 
-    public List<Integer> getSnowfall() {
+    public List<Float> getSnowfall() {
         return snowfall;
     }
 
-    public void setSnowfall(List<Integer> snowfall) {
+    public void setSnowfall(List<Float> snowfall) {
         this.snowfall = snowfall;
     }
 

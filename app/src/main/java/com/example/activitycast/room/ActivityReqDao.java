@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.activitycast.model.ActivityReq;
 
@@ -26,4 +27,7 @@ public interface ActivityReqDao {
 
     @Query("SELECT * FROM activityreq_table ORDER BY id DESC LIMIT 1")
     ActivityReq getNewestActivityReq();
+
+    @Update
+    void update(ActivityReq activityReq);
 }

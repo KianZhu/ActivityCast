@@ -118,5 +118,14 @@ public class DetailsActivity extends AppCompatActivity {
         binding.windSpdRequired.setText(windSpd);
         binding.time.setText(time);
         binding.notes.setText(notes);
+
+        binding.minTempForecasted.setText(String.valueOf(activity.getMinTempForecasted()));
+        System.out.println(activity.getMinTempForecasted());
+        binding.maxTempForecasted.setText(String.valueOf(activity.getMaxTempForecasted()));
+        binding.rainForecasted.setText(activity.isRainForecasted() ? "Yes" : "No");
+        binding.snowForecasted.setText(activity.isSnowForecasted() ? "Yes" : "No");
+        binding.visForecasted.setText(String.valueOf(activity.getVisibilityForecasted()));
+        binding.windSpdForecasted.setText(String.valueOf(activity.getWindSpeedForecasted()));
+
     }
 }

@@ -255,6 +255,39 @@
             app:layout_constraintTop_toBottomOf="@+id/windSpdTitle"
             app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Air Quality (US AQI)"
+            android:id="@+id/aqiTitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/windSpdTitle"
+            app:layout_constraintTop_toBottomOf="@+id/windSpdRequired"
+            android:layout_marginTop="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Good"
+            android:textColor="@color/blue"
+            android:id="@+id/aqiRequired"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/aqiTitle"
+            app:layout_constraintStart_toStartOf="@+id/aqiTitle"
+            android:layout_marginStart="64dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moderate"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:id="@+id/aqiForecasted"
+            app:layout_constraintTop_toBottomOf="@+id/aqiTitle"
+            app:layout_constraintStart_toStartOf="@+id/minTempForecasted" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
