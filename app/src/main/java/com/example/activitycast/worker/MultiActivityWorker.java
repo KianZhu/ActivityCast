@@ -50,6 +50,7 @@ public class MultiActivityWorker extends Worker {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());
 
 

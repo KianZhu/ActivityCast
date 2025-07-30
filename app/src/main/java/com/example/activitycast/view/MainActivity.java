@@ -3,6 +3,7 @@ package com.example.activitycast.view;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding mainBinding;
     private FloatingActionButton fab;
     private Dialog nameDialog;
+    private Dialog notificationsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            showNotificationsDialog();
+        }
 
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         recyclerView = mainBinding.recyclerView;
@@ -92,10 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
         boolean newReqAdded = getIntent().getBooleanExtra("newReqAdded", false);
         System.out.println("New Req Added? : " + newReqAdded);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
-        }
     }
 
     private void showDialog()
@@ -114,6 +119,22 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, SetLocationActivity.class);
             i.putExtra("activityName", activityName);
             startActivity(i);
+        });
+    }
+
+
+    private void showNotificationsDialog()
+    {
+        notificationsDialog = new Dialog(this);
+        notificationsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View view = LayoutInflater.from(this).inflate(R.layout.notifications_alert_dialog, null);
+        notificationsDialog.setContentView(view);
+        notificationsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        notificationsDialog.show();
+
+        Button okBTN = view.findViewById(R.id.ok_btn);
+        okBTN.setOnClickListener( v -> {
+            notificationsDialog.dismiss();
         });
     }
 
