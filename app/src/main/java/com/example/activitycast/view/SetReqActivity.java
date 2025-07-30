@@ -181,14 +181,9 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setAqiAvailable(aqiAvailable);
                 viewModel.addNewActivityReq(newReq);
                 Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
-                WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).build();
+                Data data = new Data.Builder().putInt("id", -1).build();
+                WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(wr);
-
-//                viewModel.getNewestActivityReq().observe(this, activityReq -> {
-//                    System.out.println(activityReq.getName());
-//                });
-
-
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }

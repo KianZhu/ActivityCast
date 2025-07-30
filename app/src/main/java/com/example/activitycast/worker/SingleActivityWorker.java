@@ -36,18 +36,20 @@ public class SingleActivityWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        activityReq = repository.getNewestActivityReq();
+        int id = getInputData().getInt("id", -1);
+        ActivityReq activityReq;
+        if (id != -1)
+        {
+            activityReq = repository.getActivityReqById(id);
+        }
+        else
+        {
+            activityReq = repository.getNewestActivityReq();
+        }
         System.out.println(activityReq.getName());
         System.out.println(activityReq.getLatitude());
         System.out.println(activityReq.getLongitude());
         System.out.println(activityReq.getDateStringISO());
-//        weatherHourly = repository.getWeatherMutableLiveData((float)activityReq.getLatitude(), (float)activityReq.getLongitude(), activityReq.getDateStringISO());
-//        repository.getWeatherMutableLiveData((float)activityReq.getLatitude(), (float)activityReq.getLongitude(), activityReq.getDateStringISO()).observe(getApplicationContext(), new Observer<WeatherResult>() {
-//            @Override
-//            public void onChanged(WeatherResult weatherResult) {
-//                weatherHourly = weatherResult.getHourly();
-//            }
-//        });
         WeatherResult weatherResult;
         AqiResult aqiResult;
 

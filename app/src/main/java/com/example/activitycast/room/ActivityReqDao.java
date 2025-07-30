@@ -30,4 +30,7 @@ public interface ActivityReqDao {
 
     @Update
     void update(ActivityReq activityReq);
+
+    @Query("SELECT * FROM activityreq_table WHERE id = :userId LIMIT 1")
+    ActivityReq getActivityReqById(int userId);
 }

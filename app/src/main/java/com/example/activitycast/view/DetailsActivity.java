@@ -19,13 +19,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import com.example.activitycast.R;
 import com.example.activitycast.databinding.ActivityDetailsBinding;
 import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.viewmodel.MyViewModel;
+import com.example.activitycast.worker.SingleActivityWorker;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -33,6 +40,8 @@ public class DetailsActivity extends AppCompatActivity {
     private ActivityDetailsBinding binding;
     private MyViewModel viewModel;
     private Dialog confirmDeleteDialog;
+    private int activityID = -1;
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         System.out.println(activity.getId());
+        activityID = activity.getId();
 
     }
 
@@ -79,6 +89,20 @@ public class DetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_delete_activity) {
             showConfirmDeleteDialog();
+            return true;
+        } else if (item.getItemId() == R.id.menu_refresh)
+        {
+            Data data = new Data.Builder().putInt("id", activityID).build();
+            WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
+            WorkManager.getInstance(getApplicationContext()).enqueue(wr);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Intent i = new Intent(this, DetailsActivity.class);
+            i.putExtra("activity", activity);
+            startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);
