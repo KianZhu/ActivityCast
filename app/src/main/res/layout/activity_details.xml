@@ -255,7 +255,7 @@
             android:layout_marginTop="14dp"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Good"
             android:textColor="@color/blue"
@@ -264,6 +264,7 @@
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/aqiTitle"
             app:layout_constraintStart_toStartOf="@+id/aqiTitle"
+            app:layout_constraintEnd_toStartOf="@+id/aqiForecasted"
             android:layout_marginStart="64dp"/>
 
         <TextView

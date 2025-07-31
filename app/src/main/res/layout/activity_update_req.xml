@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activityName"
+            type="String" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.SetReqActivity">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Update one or more weather requirements for"
+            android:textSize="24sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            android:layout_marginTop="110dp"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{activityName}"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="@color/blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tempText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Temperature"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addMinTempBtn"
+            app:layout_constraintTop_toBottomOf="@id/textView2"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addMinTempBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:text="Set Min"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="4dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/tempText"
+            app:layout_constraintBottom_toBottomOf="@id/tempText"
+            app:layout_constraintEnd_toStartOf="@+id/addMaxTempBtn"
+            android:backgroundTint="@color/blue"/>
+        <Button
+            android:id="@+id/rmvMinTempBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/tempText"
+            app:layout_constraintBottom_toBottomOf="@id/tempText"
+            app:layout_constraintEnd_toEndOf="@+id/addMinTempBtn"
+            app:layout_constraintStart_toStartOf="@+id/addMinTempBtn"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+        <Button
+            android:id="@+id/addMaxTempBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:text="Set Max"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/tempText"
+            app:layout_constraintBottom_toBottomOf="@id/tempText"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvMaxTempBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/tempText"
+            app:layout_constraintBottom_toBottomOf="@id/tempText"
+            app:layout_constraintEnd_toEndOf="@+id/addMaxTempBtn"
+            app:layout_constraintStart_toStartOf="@+id/addMaxTempBtn"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+        <TextView
+            android:id="@+id/rainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rain/Shower"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addRainBTN"
+            app:layout_constraintTop_toBottomOf="@id/tempText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addRainBTN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/rainText"
+            app:layout_constraintBottom_toBottomOf="@id/rainText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addMinTempBtn"
+            android:text="Add"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvRainBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/rainText"
+            app:layout_constraintBottom_toBottomOf="@id/rainText"
+            app:layout_constraintEnd_toEndOf="@+id/addRainBTN"
+            app:layout_constraintStart_toStartOf="@+id/addRainBTN"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+        <TextView
+            android:id="@+id/snowText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Snow"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addSnowBTN"
+            app:layout_constraintTop_toBottomOf="@id/rainText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addSnowBTN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/snowText"
+            app:layout_constraintBottom_toBottomOf="@id/snowText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addMinTempBtn"
+            android:text="Add"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvSnowBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/snowText"
+            app:layout_constraintBottom_toBottomOf="@id/snowText"
+            app:layout_constraintEnd_toEndOf="@+id/addSnowBTN"
+            app:layout_constraintStart_toStartOf="@+id/addSnowBTN"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+        <TextView
+            android:id="@+id/visibilityText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visibility"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addVisibilityBTN"
+            app:layout_constraintTop_toBottomOf="@id/snowText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addVisibilityBTN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintTop_toTopOf="@id/visibilityText"
+            app:layout_constraintBottom_toBottomOf="@id/visibilityText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addMinTempBtn"
+            android:text="Set"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvVisibilityBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/visibilityText"
+            app:layout_constraintBottom_toBottomOf="@id/visibilityText"
+            app:layout_constraintEnd_toEndOf="@+id/addVisibilityBTN"
+            app:layout_constraintStart_toStartOf="@+id/addVisibilityBTN"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+
+        <TextView
+            android:id="@+id/windSpeedText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wind Speed"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addWindSpeedBTN"
+            app:layout_constraintTop_toBottomOf="@id/visibilityText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addWindSpeedBTN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="@id/windSpeedText"
+            app:layout_constraintBottom_toBottomOf="@id/windSpeedText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addMinTempBtn"
+            android:text="Set"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvWindSpeedBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/windSpeedText"
+            app:layout_constraintBottom_toBottomOf="@id/windSpeedText"
+            app:layout_constraintEnd_toEndOf="@+id/addWindSpeedBTN"
+            app:layout_constraintStart_toStartOf="@+id/addWindSpeedBTN"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+        <TextView
+            android:id="@+id/airQualityText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Air Quality"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addAirQualityBTN"
+            app:layout_constraintTop_toBottomOf="@id/windSpeedText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/addAirQualityBTN"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintTop_toTopOf="@id/airQualityText"
+            app:layout_constraintBottom_toBottomOf="@id/airQualityText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/addMinTempBtn"
+            android:text="Set"
+            android:backgroundTint="@color/blue"/>
+
+        <Button
+            android:id="@+id/rmvAirQualityBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:minWidth="64dp"
+            android:text="Remove"
+            android:paddingHorizontal="0dp"
+            android:visibility="invisible"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintTop_toTopOf="@id/airQualityText"
+            app:layout_constraintBottom_toBottomOf="@id/airQualityText"
+            app:layout_constraintEnd_toEndOf="@+id/addWindSpeedBTN"
+            app:layout_constraintStart_toStartOf="@+id/addWindSpeedBTN"
+            android:textColor="@color/blue"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"/>
+
+        <TextView
+            android:id="@+id/notesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:textSize="20sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/airQualityText"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginEnd="8dp"/>
+
+        <EditText
+            android:id="@+id/notesEDT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="optional"
+            android:inputType="textMultiLine"
+            android:minWidth="64dp"
+            android:paddingHorizontal="16dp"
+            android:maxLines="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/notesText"
+            app:layout_constraintTop_toTopOf="@id/notesText" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:id="@+id/doneBTN"
+            android:text="Done"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -7,7 +7,12 @@
         android:title="Refresh"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_edit_activity"
+        android:title="Edit Activity"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_delete_activity"
         android:title="Delete Activity"
         app:showAsAction="never" />
+
 </menu>

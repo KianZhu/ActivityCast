@@ -24,8 +24,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Constraints;
 import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
@@ -40,6 +44,7 @@ import com.example.activitycast.worker.SingleActivityWorker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         boolean newReqAdded = getIntent().getBooleanExtra("newReqAdded", false);
-        System.out.println("New Req Added? : " + newReqAdded);
+
+        if (newReqAdded)
+        {
+            scheduleNotificationWorker();
+        }
     }
 
     private void showDialog()
@@ -139,7 +148,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void scheduleNotificationWorker()
+    {
+        Data data = new Data.Builder().putBoolean("needsNotification", true).build();
+        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
 
+        PeriodicWorkRequest workRequest =
+                new PeriodicWorkRequest.Builder(MultiActivityWorker.class, 1, TimeUnit.HOURS)
+                        .setInputData(data)
+                        .setConstraints(constraints)
+                        .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "NotifyUserWork",
+                ExistingPeriodicWorkPolicy.KEEP,
+                workRequest
+        );
+    }
 
 
 

@@ -8,10 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,34 +18,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
 
 import com.example.activitycast.R;
-import com.example.activitycast.databinding.ActivitySetReqBinding;
+import com.example.activitycast.databinding.ActivityUpdateReqBinding;
 import com.example.activitycast.model.ActivityReq;
-import com.example.activitycast.viewmodel.MyViewModel;
-import com.example.activitycast.worker.SingleActivityWorker;
+import com.example.activitycast.repository.Repository;
 
-import java.util.Objects;
+public class UpdateReqActivity extends AppCompatActivity {
 
-public class SetReqActivity extends AppCompatActivity {
-
-    private MyViewModel viewModel;
-    private int minTemp = -99;
-    private int maxTemp = 99;
-    private boolean rain = false;
-    private boolean snow = false;
-    private int visibility = -1;
-    private boolean windLow = false;
-    private boolean windSet = false;
-    private int aqi = 700;
-
-    private ActivitySetReqBinding binding;
+    ActivityReq activityReq;
     private int requirementsAdded = 0;
+    private Repository repository;
+
+    private ActivityUpdateReqBinding binding;
     private Dialog minTempDialog;
     private Dialog maxTempDialog;
     private Dialog minVisDialog;
@@ -56,44 +39,32 @@ public class SetReqActivity extends AppCompatActivity {
     private Dialog noReqAddedDialog;
     private Dialog tempErrorDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_set_req);
+        setContentView(R.layout.activity_update_req);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_set_req);
-
-        String activityName = getIntent().getStringExtra("activityName");
-        float latitude = getIntent().getFloatExtra("latitude", 0);
-        float longitude = getIntent().getFloatExtra("longitude", 0);
-        int year = getIntent().getIntExtra("year", 0);
-        int month = getIntent().getIntExtra("month", 0);
-        int day = getIntent().getIntExtra("day", 0);
-        int startHour = getIntent().getIntExtra("startHour", 0);
-        int endHour = getIntent().getIntExtra("endHour", 0);
-        Boolean aqiAvailable = getIntent().getBooleanExtra("aqiAvailable", false);
-
-        viewModel = new ViewModelProvider(this).get(MyViewModel.class);
-
-        binding.setActivityName(activityName);
+        repository = new Repository(getApplication());
+        activityReq = getIntent().getParcelableExtra("activity");
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_update_req);
+        requirementsAdded = setUpButtons(activityReq);
 
         binding.addMinTempBtn.setOnClickListener(v -> {showMinTempDialog();});
         binding.addMaxTempBtn.setOnClickListener(v -> {showMaxTempDialog();});
         binding.addRainBTN.setOnClickListener(v -> {
-            rain = true;
+            activityReq.setRain(true);
             requirementsAdded++;
             binding.addRainBTN.setVisibility(View.INVISIBLE);
             binding.rmvRainBtn.setVisibility(View.VISIBLE);
         });
         binding.addSnowBTN.setOnClickListener(v -> {
-            snow = true;
+            activityReq.setSnow(true);
             requirementsAdded++;
             binding.addSnowBTN.setVisibility(View.INVISIBLE);
             binding.rmvSnowBtn.setVisibility(View.VISIBLE);
@@ -102,95 +73,106 @@ public class SetReqActivity extends AppCompatActivity {
         binding.addWindSpeedBTN.setOnClickListener(v -> {showWindSpdDialog();});
         binding.addAirQualityBTN.setOnClickListener(v -> {showAqiDialog();});
 
-
-
-
         binding.rmvMinTempBtn.setOnClickListener(v -> {
-            minTemp = -99;
+            activityReq.setMinTemp(-99);
             requirementsAdded--;
             binding.addMinTempBtn.setVisibility(View.VISIBLE);
             binding.rmvMinTempBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvMaxTempBtn.setOnClickListener(v -> {
-            maxTemp = 99;
+            activityReq.setMaxTemp(99);
             requirementsAdded--;
             binding.addMaxTempBtn.setVisibility(View.VISIBLE);
             binding.rmvMaxTempBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvRainBtn.setOnClickListener(v -> {
-            rain = false;
+            activityReq.setRain(false);
             requirementsAdded--;
             binding.addRainBTN.setVisibility(View.VISIBLE);
             binding.rmvRainBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvSnowBtn.setOnClickListener(v -> {
-            snow = false;
+            activityReq.setRain(false);
             requirementsAdded--;
             binding.addSnowBTN.setVisibility(View.VISIBLE);
             binding.rmvSnowBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvVisibilityBtn.setOnClickListener(v -> {
-            visibility = -1;
+            activityReq.setVisibility(-1);
             requirementsAdded--;
             binding.addVisibilityBTN.setVisibility(View.VISIBLE);
             binding.rmvVisibilityBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvWindSpeedBtn.setOnClickListener(v -> {
-            windSet = false;
+            activityReq.setWindSet(false);
             requirementsAdded--;
             binding.addWindSpeedBTN.setVisibility(View.VISIBLE);
             binding.rmvWindSpeedBtn.setVisibility(View.INVISIBLE);
         });
         binding.rmvAirQualityBtn.setOnClickListener(v -> {
-            aqi = 700;
+            activityReq.setAqi(700);
             requirementsAdded--;
             binding.addAirQualityBTN.setVisibility(View.VISIBLE);
             binding.rmvAirQualityBtn.setVisibility(View.INVISIBLE);
         });
 
-
         binding.doneBTN.setOnClickListener(v -> {
-            if (requirementsAdded == 0)
-            {
+            if (requirementsAdded == 0) {
                 showNoReqAddedDialog();
-            }
-            else if (minTemp > maxTemp)
-            {
+            } else if (activityReq.getMinTemp() > activityReq.getMaxTemp()) {
                 showTempErrorDialog();
+            } else {
+                repository.updateActivityReq(activityReq);
+                Intent i = new Intent(this, DetailsActivity.class);
+                i.putExtra("activity", activityReq);
+                startActivity(i);
             }
-            else
-            {
-                ActivityReq newReq = new ActivityReq();
-                newReq.setName(activityName);
-                newReq.setYear(year);
-                newReq.setMonth(month);
-                newReq.setDate(day);
-                newReq.setStartHour(startHour);
-                newReq.setEndHour(endHour);
-                newReq.setLatitude(latitude);
-                newReq.setLongitude(longitude);
-                newReq.setMinTemp(minTemp);
-                newReq.setMaxTemp(maxTemp);
-                newReq.setRain(rain);
-                newReq.setSnow(snow);
-                newReq.setVisibility(visibility);
-                newReq.setWindLow(windLow);
-                newReq.setWindSet(windSet);
-                newReq.setAqi(aqi);
-                newReq.setNotes(binding.notesEDT.getText().toString());
-                newReq.setAqiAvailable(aqiAvailable);
-                viewModel.addNewActivityReq(newReq);
-                Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
-                Data data = new Data.Builder().putInt("id", -1).build();
-                WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
-                WorkManager.getInstance(getApplicationContext()).enqueue(wr);
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("newReqAdded", true);
-                startActivity(intent);
-            }
-
         });
+
     }
+
+    private int setUpButtons(ActivityReq activityReq)
+    {
+        int requirementsAdded = 0;
+        if (activityReq.getMinTemp() != -99) {
+            binding.addMinTempBtn.setVisibility(View.INVISIBLE);
+            binding.rmvMinTempBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.getMaxTemp() != 99) {
+            binding.addMaxTempBtn.setVisibility(View.INVISIBLE);
+            binding.rmvMaxTempBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.isRain()) {
+            binding.addRainBTN.setVisibility(View.INVISIBLE);
+            binding.rmvRainBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.isSnow()){
+            binding.addSnowBTN.setVisibility(View.INVISIBLE);
+            binding.rmvSnowBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.getVisibility() != -1) {
+            binding.addVisibilityBTN.setVisibility(View.INVISIBLE);
+            binding.rmvVisibilityBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.isWindSet()) {
+            binding.addVisibilityBTN.setVisibility(View.INVISIBLE);
+            binding.rmvVisibilityBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        if (activityReq.getAqi() != 700) {
+            binding.addAirQualityBTN.setVisibility(View.INVISIBLE);
+            binding.rmvAirQualityBtn.setVisibility(View.VISIBLE);
+            requirementsAdded++;
+        }
+        binding.notesEDT.setText(activityReq.getNotes());
+        return requirementsAdded;
+    }
+
 
     private void showMinTempDialog()
     {
@@ -211,6 +193,7 @@ public class SetReqActivity extends AppCompatActivity {
 
         Button submit = view.findViewById(R.id.submit_btn);
         submit.setOnClickListener( v -> {
+            int minTemp = -99;
             int selectedId = radioGroup.getCheckedRadioButtonId();
             if (selectedId == -1) return;
             if (selectedId == R.id.min30) minTemp = 30;
@@ -222,6 +205,7 @@ public class SetReqActivity extends AppCompatActivity {
             else if (selectedId == R.id.minn10) minTemp = -10;
             else if (selectedId == R.id.minn20) minTemp = -20;
             requirementsAdded++;
+            activityReq.setMinTemp(minTemp);
             binding.addMinTempBtn.setVisibility(View.INVISIBLE);
             binding.rmvMinTempBtn.setVisibility(View.VISIBLE);
             minTempDialog.dismiss();
@@ -248,6 +232,7 @@ public class SetReqActivity extends AppCompatActivity {
         Button submit = view.findViewById(R.id.submit_btn);
         submit.setOnClickListener( v -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
+            int maxTemp = 99;
             if (selectedId == -1) return;
             if (selectedId == R.id.max40) maxTemp = 40;
             else if (selectedId == R.id.max35) maxTemp = 35;
@@ -258,6 +243,7 @@ public class SetReqActivity extends AppCompatActivity {
             else if (selectedId == R.id.max0) maxTemp = 0;
             else if (selectedId == R.id.maxn10) maxTemp = -10;
             requirementsAdded++;
+            activityReq.setMaxTemp(maxTemp);
             binding.addMaxTempBtn.setVisibility(View.INVISIBLE);
             binding.rmvMaxTempBtn.setVisibility(View.VISIBLE);
             maxTempDialog.dismiss();
@@ -284,6 +270,7 @@ public class SetReqActivity extends AppCompatActivity {
         Button submit = view.findViewById(R.id.submit_btn);
         submit.setOnClickListener( v -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
+            int visibility = -1;
             if (selectedId == -1) return;
             if (selectedId == R.id.min10) visibility = 10;
             else if (selectedId == R.id.min30) visibility = 30;
@@ -298,6 +285,7 @@ public class SetReqActivity extends AppCompatActivity {
             else if (selectedId == R.id.min5k) visibility = 5000;
             else if (selectedId == R.id.min10k) visibility = 10000;
             requirementsAdded++;
+            activityReq.setVisibility(visibility);
             binding.addVisibilityBTN.setVisibility(View.INVISIBLE);
             binding.rmvVisibilityBtn.setVisibility(View.VISIBLE);
             minVisDialog.dismiss();
@@ -325,10 +313,13 @@ public class SetReqActivity extends AppCompatActivity {
         submit.setOnClickListener( v -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
             if (selectedId == -1) return;
-            windSet = true;
+            boolean windSet = true;
+            boolean windLow = true;
             if (selectedId == R.id.l10) windLow = true;
             else if (selectedId == R.id.ge10) windLow = false;
             requirementsAdded++;
+            activityReq.setWindSet(windSet);
+            activityReq.setWindLow(windLow);
             binding.addWindSpeedBTN.setVisibility(View.INVISIBLE);
             binding.rmvWindSpeedBtn.setVisibility(View.VISIBLE);
             windDialog.dismiss();
@@ -355,6 +346,7 @@ public class SetReqActivity extends AppCompatActivity {
         Button submit = view.findViewById(R.id.submit_btn);
         submit.setOnClickListener( v -> {
             int selectedId = radioGroup.getCheckedRadioButtonId();
+            int aqi = 700;
             if (selectedId == -1) return;
             if (selectedId == R.id.max50) aqi = 50;
             else if (selectedId == R.id.max100) aqi = 100;
@@ -362,6 +354,7 @@ public class SetReqActivity extends AppCompatActivity {
             else if (selectedId == R.id.max200) aqi = 200;
             else if (selectedId == R.id.max300) aqi = 400;
             requirementsAdded++;
+            activityReq.setAqi(aqi);
             binding.addAirQualityBTN.setVisibility(View.INVISIBLE);
             binding.rmvAirQualityBtn.setVisibility(View.VISIBLE);
             maxAqiDialog.dismiss();
@@ -396,5 +389,4 @@ public class SetReqActivity extends AppCompatActivity {
             tempErrorDialog.dismiss();
         });
     }
-
 }

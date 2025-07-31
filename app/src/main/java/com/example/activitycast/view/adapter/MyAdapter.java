@@ -14,6 +14,7 @@ import com.example.activitycast.databinding.ActivityreqListItemBinding;
 import com.example.activitycast.model.ActivityReq;
 import com.example.activitycast.view.DetailsActivity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -40,8 +41,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         ActivityReq current = activityReqArrayList.get(i);
         myViewHolder.binding.setActivityreq(current);
-        if (current.isConflict()) myViewHolder.binding.alertIcon.setVisibility(View.VISIBLE);
-        else myViewHolder.binding.alertIcon.setVisibility(View.INVISIBLE);
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        int month = currentDate.getMonthValue(); // Month is 1-indexed (1 for January, 12 for December)
+        int day = currentDate.getDayOfMonth();
+
+        if ((year > current.getYear()) ||
+                (year == current.getYear() && month > current.getMonth()) ||
+                (year == current.getYear() && month == current.getMonth() && day > current.getDate())){
+            myViewHolder.binding.outOfDateIcon.setVisibility(View.VISIBLE);
+        } else {
+            myViewHolder.binding.outOfDateIcon.setVisibility(View.INVISIBLE);
+            if (current.isConflict()) myViewHolder.binding.alertIcon.setVisibility(View.VISIBLE);
+            else myViewHolder.binding.alertIcon.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

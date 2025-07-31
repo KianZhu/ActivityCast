@@ -104,6 +104,12 @@ public class DetailsActivity extends AppCompatActivity {
             i.putExtra("activity", activity);
             startActivity(i);
             return true;
+        } else if (item.getItemId() == R.id.menu_edit_activity)
+        {
+            Intent intent = new Intent(this, UpdateReqActivity.class);
+            intent.putExtra("activity", activity);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -140,6 +146,24 @@ public class DetailsActivity extends AppCompatActivity {
         String vis = activity.getVisibility() == -1 ? "Not Specified" : "＞" + String.valueOf(activity.getVisibility());
         String windSpd = activity.isWindSet() ? (activity.isWindLow() ? "＜10" : "≥10") : "Not Specified";
         String notes = Objects.equals(activity.getNotes(), "") ? "No notes" : activity.getNotes();
+        String aqiString;
+        int aqiRequired = activity.getAqi();
+        if (aqiRequired != 700)
+        {
+            if (aqiRequired <= 50) aqiString = "Good";
+            else if (aqiRequired <= 100) aqiString = "Moderate";
+            else if (aqiRequired <= 150) aqiString = "Unhealthy for Sensitive Groups";
+            else if (aqiRequired <= 200) aqiString = "Unhealthy";
+            else if (aqiRequired <= 300) aqiString= "Very Unhealthy";
+            else aqiString = "Hazardous";
+        }
+        else
+        {
+            aqiString = "Not Specified";
+        }
+        binding.aqiRequired.setText(aqiString);
+
+
         binding.minTempRequired.setText(minTemp);
         binding.maxTempRequired.setText(maxTemp);
         binding.rainRequired.setText(rain);
@@ -182,7 +206,7 @@ public class DetailsActivity extends AppCompatActivity {
             int aqiForecasted = activity.getAqiForecasted();
             if (aqiForecasted <= 50) aqiForecastedString = "Good";
             else if (aqiForecasted <= 100) aqiForecastedString = "Moderate";
-            else if (aqiForecasted <= 150) aqiForecastedString = "Unhealthy for Sensitive Groups";
+            else if (aqiForecasted <= 150) aqiForecastedString = "Unhealthy for \nSensitive Groups";
             else if (aqiForecasted <= 200) aqiForecastedString = "Unhealthy";
             else if (aqiForecasted <= 300) aqiForecastedString = "Very Unhealthy";
             else aqiForecastedString = "Hazardous";

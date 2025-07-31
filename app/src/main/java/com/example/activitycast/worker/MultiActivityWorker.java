@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.WorkManager;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -41,80 +42,70 @@ public class MultiActivityWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        createNotificationChannel();
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)  // replace with your icon
-                .setContentTitle("Reminder")
-                .setContentText("Hey! Don't forget to check your app 😊")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Boolean needsNotification = getInputData().getBoolean("needsNotification", false);
+        WeatherResult weatherResult;
+        AqiResult aqiResult;
+        List<ActivityReq> activityReqsList = repository.getAllActivityReqNonLD();
+        activityReqs.addAll(activityReqsList);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (activityReqs.isEmpty())
+        {
+            WorkManager.getInstance(getApplicationContext())
+                    .cancelUniqueWork("NotifyUserWork");
+            return Result.success();
+        }
 
-        notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+        for (ActivityReq activityReq : activityReqs)
+        {
+            Boolean isConflict = activityReq.isConflict();
+            try {
+                weatherResult = repository.getWeatherResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            WeatherHourly weatherHourly = weatherResult.getHourly();
+            activityReq.setConflict(false);
+            activityReq.setMinTempForecasted(getMinTemp(weatherHourly, activityReq));
+            activityReq.setMaxTempForecasted(getMaxTemp(weatherHourly, activityReq));
+            activityReq.setRainForecasted(getRain(weatherHourly, activityReq));
+            activityReq.setSnowForecasted(getSnow(weatherHourly, activityReq));
+            activityReq.setVisibilityForecasted(getMinVisibility(weatherHourly, activityReq));
+            activityReq.setWindSpeedForecasted(getWorstWindSpeed(weatherHourly, activityReq));
 
+            if (activityReq.isAqiAvailable())
+            {
+                try {
+                    aqiResult = repository.getAqiResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                AqiHourly aqiHourly = aqiResult.getHourly();
+                activityReq.setAqiForecasted(getAqi(aqiHourly, activityReq));
+            }
 
-//        Boolean needsNotification = getInputData().getBoolean("needsNotification", false);
-//        WeatherResult weatherResult;
-//        AqiResult aqiResult;
-//        List<ActivityReq> activityReqsList = repository.getAllActivityReqNonLD();
-//        activityReqs.addAll(activityReqsList);
-//
-//        for (ActivityReq activityReq : activityReqs)
-//        {
-//            Boolean isConflict = activityReq.isConflict();
-//            try {
-//                weatherResult = repository.getWeatherResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            WeatherHourly weatherHourly = weatherResult.getHourly();
-//            activityReq.setConflict(false);
-//            activityReq.setMinTempForecasted(getMinTemp(weatherHourly, activityReq));
-//            activityReq.setMaxTempForecasted(getMaxTemp(weatherHourly, activityReq));
-//            activityReq.setRainForecasted(getRain(weatherHourly, activityReq));
-//            activityReq.setSnowForecasted(getSnow(weatherHourly, activityReq));
-//            activityReq.setVisibilityForecasted(getMinVisibility(weatherHourly, activityReq));
-//            activityReq.setWindSpeedForecasted(getWorstWindSpeed(weatherHourly, activityReq));
-//
-//            if (activityReq.isAqiAvailable())
-//            {
-//                try {
-//                    aqiResult = repository.getAqiResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                AqiHourly aqiHourly = aqiResult.getHourly();
-//                activityReq.setAqiForecasted(getAqi(aqiHourly, activityReq));
-//            }
-//
-//            Boolean newIsConflict = activityReq.isConflict();
-//            repository.updateActivityReq(activityReq);
-//
-//            if (needsNotification && (isConflict != newIsConflict))
-//            {
-//                String title;
-//                if (newIsConflict){
-//                    title = "Updated forecast: UNIDEAL for one of your activities";
-//                } else {
-//                    title = "Updated forecast: ideal now for one of your activities";
-//                }
-//                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-//                        .setSmallIcon(R.drawable.ic_launcher_foreground)  // replace with your icon
-//                        .setContentTitle(title)
-//                        .setContentText("Check new forecast now")
-//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-//                notificationManager.notify((int) System.currentTimeMillis(), builder.build());
-//            }
+            Boolean newIsConflict = activityReq.isConflict();
+            repository.updateActivityReq(activityReq);
 
-//            return Result.success();
-//        }
-
-
-
-
+            if (needsNotification && (isConflict != newIsConflict))
+            {
+                String title;
+                if (newIsConflict){
+                    title = "Updated forecast: UNIDEAL for one of your activities";
+                } else {
+                    title = "Updated forecast: ideal now for one of your activities";
+                }
+                createNotificationChannel();
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle(title)
+                        .setContentText("Check new forecast now")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+                needsNotification = false;
+            }
+        }
         return Result.success();
     }
 

@@ -16,6 +16,9 @@
         android:theme="@style/Theme.ActivityCast"
         tools:targetApi="31">
         <activity
+            android:name=".view.UpdateReqActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.DetailsActivity"
             android:exported="false" />
         <activity
