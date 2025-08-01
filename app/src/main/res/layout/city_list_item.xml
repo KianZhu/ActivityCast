@@ -6,7 +6,7 @@
     <data>
         <variable
             name="CityResult"
-            type="com.example.activitycast.model.CityResultInd" />
+            type="com.kianzhu.activitycast.model.CityResultInd" />
     </data>
 
 

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="activityreq"
-            type="com.example.activitycast.model.ActivityReq" />
+            type="com.kianzhu.activitycast.model.ActivityReq" />
     </data>
 
 

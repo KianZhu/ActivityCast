@@ -8,27 +8,116 @@
     tools:context=".view.ManualActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/instructionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="This is the manual"
+        android:text="Manual"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/instructionsTitle"
+        android:id="@+id/instructions1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:text="ActivityCast lets you add your planned outdoor activities and set their weather requirements up to 16 days in advance. (Temperature, Rain/Shower, Snow, Visibility, Wind Speed, and Air Quality)"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/instructions1"
+        android:id="@+id/instructions2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="ActivityCast will monitor the weather forecast of the time of your activity. And alert you via a notification if it detects a change in the forecast that changes whether or not the weather will be ideal for your activity. Based on the weather requirements that you provided."
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/instructions2"
+        android:id="@+id/instructions3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="The information provided by ActivityCast is for secondary reference only. It does not replace any official weather forecast or your own judgement of whether or not an activity can be performed safely."
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/instructions3"
+        android:id="@+id/instructions4"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Add an activity by simply tapping on the '+' button in the bottom right corner of the main screen. Then follow the on-screen instructions to provide more details about your activity. Make sure that you grant ActivityCast notification permissions in device settings to receive alert notifications."
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/instructions4"
+        android:id="@+id/instructions5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Thank you for using ActivityCast. We wish you the best in your outdoor adventures."
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/constributionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="171dp"
-        android:backgroundTint="@color/blue"
-        android:text="Return"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Contributions"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructions5" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/constributionsTitle"
+        android:id="@+id/contributionsText"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="ActivityCast is open-source and ad-free. Feel free to view the source code or contribute at: https://github.com/KianZhu/ActivityCast"
+        android:layout_marginEnd="32dp"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="171dp"-->
+<!--        android:backgroundTint="@color/blue"-->
+<!--        android:text="Return"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/contributionsText"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
