@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -25,6 +26,7 @@ import com.kianzhu.activitycast.repository.Repository;
 import com.kianzhu.activitycast.view.MainActivity;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +57,22 @@ public class MultiActivityWorker extends Worker {
             return Result.success();
         }
 
+        int activitesProcessed=0;
+
+        LocalDate currentDate = LocalDate.now();
+        int year = currentDate.getYear();
+        int month = currentDate.getMonthValue(); // Month is 1-indexed (1 for January, 12 for December)
+        int day = currentDate.getDayOfMonth();
         for (ActivityReq activityReq : activityReqs)
         {
+            //Check if is outdated
+            if ((year > activityReq.getYear()) ||
+                    (year == activityReq.getYear() && month > activityReq.getMonth()) ||
+                    (year == activityReq.getYear() && month == activityReq.getMonth() && day > activityReq.getDate())){
+                continue;
+            }
+            activitesProcessed++;
+
             Boolean isConflict = activityReq.isConflict();
             try {
                 weatherResult = repository.getWeatherResult(activityReq.getLatitude(), activityReq.getLongitude(), activityReq.getDateStringISO());
@@ -115,6 +131,11 @@ public class MultiActivityWorker extends Worker {
                 notificationManager.notify((int) System.currentTimeMillis(), builder.build());
                 needsNotification = false;
             }
+        }
+        if (activitesProcessed == 0)
+        {
+            WorkManager.getInstance(getApplicationContext())
+                    .cancelUniqueWork("NotifyUserWork");
         }
         return Result.success();
     }

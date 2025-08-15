@@ -52,6 +52,7 @@ public class SetReqActivity extends AppCompatActivity {
     private Dialog maxAqiDialog;
     private Dialog noReqAddedDialog;
     private Dialog tempErrorDialog;
+    private Dialog loadingDialog;
 
 
     @Override
@@ -177,13 +178,26 @@ public class SetReqActivity extends AppCompatActivity {
                 newReq.setNotes(binding.notesEDT.getText().toString());
                 newReq.setAqiAvailable(aqiAvailable);
                 viewModel.addNewActivityReq(newReq);
-                Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
                 Data data = new Data.Builder().putInt("id", -1).build();
                 WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(wr);
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("newReqAdded", true);
-                startActivity(intent);
+                loadingDialog = new Dialog(this);
+                loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                View view = LayoutInflater.from(this).inflate(R.layout.loading_dialog, null);
+                loadingDialog.setContentView(view);
+                loadingDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                loadingDialog.show();
+                WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(wr.getId())
+                        .observe(this, workInfo -> {
+                            if (workInfo != null && workInfo.getState().isFinished()) {
+                                Intent intent = new Intent(this, MainActivity.class);
+                                intent.putExtra("newReqAdded", true);
+                                loadingDialog.dismiss();
+                                Toast.makeText(this, "New activity added", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            }
+                        });
+
             }
 
         });

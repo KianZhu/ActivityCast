@@ -43,6 +43,7 @@ public class UpdateReqActivity extends AppCompatActivity {
     private Dialog maxAqiDialog;
     private Dialog noReqAddedDialog;
     private Dialog tempErrorDialog;
+    private Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class UpdateReqActivity extends AppCompatActivity {
         repository = new Repository(getApplication());
         activityReq = getIntent().getParcelableExtra("activity");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_update_req);
+        binding.setActivityName(activityReq.getName());
+        binding.notesEDT.setText(activityReq.getNotes());
         requirementsAdded = setUpButtons(activityReq);
 
         binding.addMinTempBtn.setOnClickListener(v -> {showMinTempDialog();});
@@ -127,13 +130,27 @@ public class UpdateReqActivity extends AppCompatActivity {
             } else if (activityReq.getMinTemp() > activityReq.getMaxTemp()) {
                 showTempErrorDialog();
             } else {
+                String notes = binding.notesEDT.getText().toString();
+                activityReq.setNotes(notes);
                 repository.updateActivityReq(activityReq);
                 Data data = new Data.Builder().putInt("id", -1).build();
                 WorkRequest wr = new OneTimeWorkRequest.Builder(SingleActivityWorker.class).setInputData(data).build();
                 WorkManager.getInstance(getApplicationContext()).enqueue(wr);
-                Intent i = new Intent(this, DetailsActivity.class);
-                i.putExtra("activity", activityReq);
-                startActivity(i);
+                loadingDialog = new Dialog(this);
+                loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                View view = LayoutInflater.from(this).inflate(R.layout.loading_dialog, null);
+                loadingDialog.setContentView(view);
+                loadingDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                loadingDialog.show();
+                WorkManager.getInstance(getApplicationContext()).getWorkInfoByIdLiveData(wr.getId())
+                        .observe(this, workInfo -> {
+                            if (workInfo != null && workInfo.getState().isFinished()) {
+                                Intent i = new Intent(this, DetailsActivity.class);
+                                i.putExtra("activity", activityReq);
+                                loadingDialog.dismiss();
+                                startActivity(i);
+                            }
+                        });
             }
         });
 
